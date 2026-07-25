@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {
   ResponsiveContainer, LineChart, BarChart, AreaChart,
-  Line, Bar, Area, XAxis, YAxis, Tooltip,
+  Line, Bar, Area, XAxis, Tooltip,
 } from 'recharts';
 
 const CHART_CONFIG = {
@@ -113,8 +113,8 @@ export default function ChartModal({ open, field, hourly, onClose }) {
           <ResponsiveContainer width='100%' height={240}>
             <ChartComponent {...chartProps}>
               <XAxis dataKey='time' tick={{ fontSize: 10, fill: 'var(--text-muted)' }} interval={3} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} width={36} />
-              <Tooltip content={<CustomTooltip unit={config.unit} />} cursor={{ stroke: 'var(--text-muted)', strokeDasharray: '3 3' }} />
+              <YAxis hide />
+              <Tooltip content={<CustomTooltip unit={config.unit} />} cursor={false} />
               <DataComponent type='monotone' dataKey='value' stroke={config.color} fill={config.color} fillOpacity={0.15} strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} radius={[4, 4, 0, 0]} />
             </ChartComponent>
           </ResponsiveContainer>

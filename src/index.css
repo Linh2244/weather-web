@@ -561,11 +561,9 @@ body {
 
 /* === CHART TOOLTIP === */
 .chart-tooltip {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 8px 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: transparent;
+  border: none;
+  padding: 4px 8px;
 }
 .chart-tooltip-time {
   font-size: 11px;
