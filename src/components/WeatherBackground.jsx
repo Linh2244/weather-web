@@ -159,20 +159,20 @@ function ShootingStar() {
 }
 
 const WEATHER_BG = {
-  clear: 'linear-gradient(180deg, rgba(135,206,250,0.15) 0%, rgba(255,200,100,0.05) 60%, transparent 100%)',
-  clearDark: 'linear-gradient(180deg, rgba(10,15,40,0.95) 0%, rgba(20,30,70,0.6) 50%, transparent 100%)',
-  cloudy: 'linear-gradient(180deg, rgba(186,210,235,0.12) 0%, transparent 50%)',
-  cloudyDark: 'linear-gradient(180deg, rgba(20,25,45,0.9) 0%, rgba(30,40,60,0.4) 50%, transparent 100%)',
-  overcast: 'linear-gradient(180deg, rgba(148,163,184,0.15) 0%, transparent 50%)',
-  overcastDark: 'linear-gradient(180deg, rgba(30,35,50,0.9) 0%, rgba(40,50,70,0.4) 50%, transparent 100%)',
-  rain: 'linear-gradient(180deg, rgba(100,116,139,0.2) 0%, transparent 50%)',
-  rainDark: 'linear-gradient(180deg, rgba(15,20,35,0.9) 0%, rgba(25,35,55,0.4) 50%, transparent 100%)',
-  snow: 'linear-gradient(180deg, rgba(226,232,240,0.15) 0%, transparent 50%)',
-  snowDark: 'linear-gradient(180deg, rgba(20,25,45,0.85) 0%, rgba(35,45,65,0.4) 50%, transparent 100%)',
-  thunder: 'linear-gradient(180deg, rgba(51,65,85,0.3) 0%, transparent 50%)',
-  thunderDark: 'linear-gradient(180deg, rgba(10,15,30,0.95) 0%, rgba(20,30,50,0.5) 50%, transparent 100%)',
-  fog: 'linear-gradient(180deg, rgba(148,163,184,0.15) 0%, transparent 50%)',
-  fogDark: 'linear-gradient(180deg, rgba(25,30,45,0.85) 0%, rgba(35,45,60,0.4) 50%, transparent 100%)',
+  clear: 'linear-gradient(180deg, #7dd3fc 0%, #bae6fd 40%, #e0f2fe 70%, #f0f9ff 100%)',
+  clearDark: 'linear-gradient(180deg, #082f49 0%, #0c4a6e 30%, #0b1625 70%, #0b1625 100%)',
+  cloudy: 'linear-gradient(180deg, #93c5fd 0%, #bfdbfe 35%, #e0f2fe 70%, #f0f9ff 100%)',
+  cloudyDark: 'linear-gradient(180deg, #0c1929 0%, #122e4a 30%, #0b1625 70%, #0b1625 100%)',
+  overcast: 'linear-gradient(180deg, #7e8a9a 0%, #9ca3af 30%, #cbd5e1 60%, #e2e8f0 100%)',
+  overcastDark: 'linear-gradient(180deg, #111827 0%, #1e293b 30%, #0b1625 70%, #0b1625 100%)',
+  rain: 'linear-gradient(180deg, #64748b 0%, #94a3b8 30%, #cbd5e1 60%, #e2e8f0 100%)',
+  rainDark: 'linear-gradient(180deg, #0f172a 0%, #1e293b 30%, #0b1625 70%, #0b1625 100%)',
+  snow: 'linear-gradient(180deg, #bae6fd 0%, #e0f2fe 30%, #f0f9ff 60%, #ffffff 100%)',
+  snowDark: 'linear-gradient(180deg, #0c1929 0%, #1a334a 30%, #111e32 70%, #0b1625 100%)',
+  thunder: 'linear-gradient(180deg, #1e293b 0%, #334155 30%, #475569 60%, #64748b 100%)',
+  thunderDark: 'linear-gradient(180deg, #020617 0%, #0f172a 30%, #0b1625 70%, #0b1625 100%)',
+  fog: 'linear-gradient(180deg, #94a3b8 0%, #cbd5e1 30%, #e2e8f0 60%, #f1f5f9 100%)',
+  fogDark: 'linear-gradient(180deg, #1e293b 0%, #334155 30%, #0b1625 70%, #0b1625 100%)',
 };
 
 const HORIZON_GLOW = {
