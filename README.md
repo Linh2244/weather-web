@@ -2,9 +2,9 @@
 
 # Thời Tiết — Weather Web
 
-**Trang web thời tiết cho Việt Nam** với giao diện Apple-inspired, dark/light mode, GPS tự động, animation mượt mà.
+**Trang web thời tiết cho Việt Nam** với giao diện dark/light mode, GPS tự động, animation mượt mà.
 
-A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/light mode, GPS detection, and smooth animations.
+A **weather website for Vietnam** with dark/light mode, GPS detection, and smooth animations.
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
@@ -42,7 +42,6 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 - **PWA** — cài đặt như app trên mobile/desktop
 - **Service Worker** — tự động cập nhật, cache offline
 - **Animations** — spring easing, stagger, shimmer, fade-in, slide-in, reduced-motion hỗ trợ
-- **Glassmorphism UI** — Apple Weather-inspired, backdrop-blur, animated transitions
 
 ---
 
