@@ -1,4 +1,4 @@
-import { memo, useState, useCallback, useMemo } from 'react';
+import { memo, useState, useCallback, useMemo, useRef } from 'react';
 import {
   UmbrellaIcon, DropletIcon, ThermometerIcon, WindIcon,
   EyeIcon, UVIcon, SunIcon, SnowflakeIcon, AlertIcon, MoonIcon,
@@ -18,6 +18,23 @@ function isThunderCode(code) {
 const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuality }) {
   const [active, setActive] = useState(0);
   const handleDot = useCallback((i) => setActive(i), []);
+  const touchStartX = useRef(null);
+
+  const handleTouchStart = useCallback((e) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback(
+    (e) => {
+      if (touchStartX.current == null) return;
+      const diff = e.changedTouches[0].clientX - touchStartX.current;
+      touchStartX.current = null;
+      if (Math.abs(diff) < 50) return;
+      if (diff > 0 && active > 0) setActive((a) => a - 1);
+      if (diff < 0 && active < pages.length - 1) setActive((a) => a + 1);
+    },
+    [active, pages.length],
+  );
 
   const pages = useMemo(() => {
     if (!data?.current) return [];
@@ -151,7 +168,11 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
   const page = pages[active] || pages[0];
 
   return (
-    <div className='glass-card'>
+    <div
+      className='glass-card'
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <div className='flex items-start gap-3'>
         <div
           className='w-11 h-11 rounded-full flex items-center justify-center shrink-0'
