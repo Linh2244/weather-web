@@ -231,6 +231,45 @@ body {
   will-change: transform;
 }
 
+/* === BG CLOUDS === */
+.cloud {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+.cloud svg {
+  display: block;
+}
+@keyframes cloudDrift {
+  0% { transform: translateX(-10%) translateY(0); }
+  25% { transform: translateX(5%) translateY(-4px); }
+  50% { transform: translateX(20%) translateY(0); }
+  75% { transform: translateX(5%) translateY(3px); }
+  100% { transform: translateX(-10%) translateY(0); }
+}
+@keyframes cloudDriftSlow {
+  0% { transform: translateX(-15%) translateY(0); }
+  33% { transform: translateX(0%) translateY(-3px); }
+  66% { transform: translateX(15%) translateY(2px); }
+  100% { transform: translateX(-15%) translateY(0); }
+}
+@keyframes cloudDriftReverse {
+  0% { transform: translateX(10%) translateY(0); }
+  25% { transform: translateX(-5%) translateY(-3px); }
+  50% { transform: translateX(-20%) translateY(0); }
+  75% { transform: translateX(-5%) translateY(3px); }
+  100% { transform: translateX(10%) translateY(0); }
+}
+.animate-cloud-drift {
+  animation: cloudDrift ease-in-out infinite;
+}
+.animate-cloud-drift-slow {
+  animation: cloudDriftSlow ease-in-out infinite;
+}
+.animate-cloud-drift-reverse {
+  animation: cloudDriftReverse ease-in-out infinite;
+}
+
 /* === SCROLL SNAP === */
 .scroll-snap-x {
   scroll-snap-type: x mandatory;
@@ -405,6 +444,7 @@ body {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .stagger-children > .stagger-item { opacity: 1 !important; transform: none !important; transition: none !important; }
   .rain-drop, .snow-flake, .star, .shooting-star,
-  .fog-layer, .sun-ray, .thunder-flash { animation: none !important; }
+  .fog-layer, .sun-ray, .thunder-flash,
+  .cloud { animation: none !important; }
   * { transition-duration: 0.01ms !important; }
 }

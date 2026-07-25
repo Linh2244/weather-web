@@ -28,6 +28,43 @@ function SnowFlake({ delay }) {
   );
 }
 
+const CLOUD_SHAPES = [
+  <svg key="cloud1" viewBox="0 0 120 60" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 40c0-8 6-14 14-14 2-7 8-12 16-12 5 0 9 2 12 5 2-5 7-9 13-9 7 0 12 5 14 11 4-1 7 0 10 2 4 2 7 6 7 11 0 3-1 6-3 8H23c-2 0-3-1-3-2z"/>
+    <ellipse cx="28" cy="42" rx="18" ry="8"/>
+    <ellipse cx="54" cy="38" rx="22" ry="12"/>
+    <ellipse cx="86" cy="40" rx="20" ry="9"/>
+    <ellipse cx="104" cy="42" rx="14" ry="6"/>
+  </svg>,
+  <svg key="cloud2" viewBox="0 0 100 50" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 34c0-7 5-12 12-12 2-6 7-10 13-10 4 0 8 2 10 5 2-4 6-7 11-7 6 0 10 4 12 9 3-1 6 0 8 2 3 2 5 5 5 9 0 3-1 5-3 7H18c-2 0-3-1-3-3z"/>
+    <ellipse cx="22" cy="36" rx="15" ry="7"/>
+    <ellipse cx="46" cy="32" rx="18" ry="10"/>
+    <ellipse cx="72" cy="34" rx="17" ry="8"/>
+    <ellipse cx="88" cy="36" rx="12" ry="5"/>
+  </svg>,
+  <svg key="cloud3" viewBox="0 0 80 40" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 28c0-6 4-10 10-10 1-5 5-8 10-8 3 0 6 1 8 3 1-3 5-5 9-5 5 0 8 3 10 7 2-1 5 0 6 2 2 2 3 4 3 7 0 2-1 4-2 5H14c-1 0-2-1-2-1z"/>
+    <ellipse cx="18" cy="30" rx="12" ry="6"/>
+    <ellipse cx="38" cy="28" rx="15" ry="8"/>
+    <ellipse cx="60" cy="30" rx="13" ry="6"/>
+  </svg>,
+  <svg key="cloud4" viewBox="0 0 60 30" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="16" cy="20" rx="14" ry="8"/>
+    <ellipse cx="30" cy="16" rx="16" ry="10"/>
+    <ellipse cx="44" cy="20" rx="14" ry="7"/>
+    <ellipse cx="52" cy="22" rx="10" ry="5"/>
+  </svg>,
+];
+
+function BgCloud({ shapeIndex, className, style }) {
+  return (
+    <div className={'cloud ' + className} style={style}>
+      {CLOUD_SHAPES[shapeIndex % CLOUD_SHAPES.length]}
+    </div>
+  );
+}
+
 function FogLayer({ index }) {
   const top = useMemo(() => 20 + index * 15, [index]);
   const duration = useMemo(() => 8 + index * 3, [index]);
@@ -122,7 +159,10 @@ export default function WeatherBackground({ weatherCode, isDay }) {
   const isFog = weatherType === 'fog';
   const isThunder = weatherType === 'thunder';
   const isClear = weatherType === 'clear';
-  const showStars = !isDay && (isClear || weatherType === 'cloudy');
+  const isCloudy = weatherType === 'cloudy';
+  const isOvercast = weatherType === 'overcast';
+  const showStars = !isDay && (isClear || isCloudy);
+  const showClouds = !isClear && !isFog;
   const showSunRays = isDay && isClear;
 
   const bgKey = isDay ? weatherType : weatherType + 'Dark';
@@ -166,6 +206,33 @@ export default function WeatherBackground({ weatherCode, isDay }) {
     ));
   }, [isFog]);
 
+  const clouds = useMemo(() => {
+    if (!showClouds) return null;
+    const count = isOvercast ? 6 : isCloudy ? 4 : isThunder ? 3 : isRain ? 3 : isSnow ? 3 : 2;
+    const baseOpacity = isOvercast ? 0.5 : isCloudy ? 0.35 : 0.2;
+    const color = isDay ? 'rgba(255,255,255,' : 'rgba(200,210,230,';
+    return Array.from({ length: count }, (_, i) => {
+      const shapeIndex = i % CLOUD_SHAPES.length;
+      const size = 0.6 + Math.random() * 0.8;
+      const top = 5 + Math.random() * 40;
+      const left = -5 + Math.random() * 10;
+      const opacity = baseOpacity + Math.random() * 0.15;
+      const dur = 25 + Math.random() * 25;
+      const delay = Math.random() * -30;
+      const animClass = i % 3 === 0 ? 'animate-cloud-drift-slow' : i % 3 === 1 ? 'animate-cloud-drift' : 'animate-cloud-drift-reverse';
+      return (
+        <BgCloud key={i} shapeIndex={shapeIndex}
+          className={animClass}
+          style={{
+            top: top + '%', left: left + '%',
+            width: size * 120 + 'px', height: size * 60 + 'px',
+            opacity, color: color + opacity + ')',
+            animationDuration: dur + 's', animationDelay: delay + 's',
+          }} />
+      );
+    });
+  }, [showClouds, isOvercast, isCloudy, isThunder, isRain, isSnow, isDay]);
+
   if (!weatherCode && weatherCode !== 0) return null;
 
   return (
@@ -175,6 +242,7 @@ export default function WeatherBackground({ weatherCode, isDay }) {
       {showSunRays && Array.from({ length: 4 }, (_, i) => (
         <SunRay key={i} index={i} />
       ))}
+      {clouds}
       {stars}
       {shootingStars}
       {rainDrops}
