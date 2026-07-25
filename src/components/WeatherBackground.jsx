@@ -172,6 +172,7 @@ export default function WeatherBackground({ weatherCode, isDay }) {
   const isOvercast = weatherType === 'overcast';
   const showStars = !isDay && (isClear || isCloudy);
   const showClouds = !isClear && !isFog;
+  const showSun = isDay && isClear;
 
   const bgKey = isDay ? weatherType : weatherType + 'Dark';
   const bg = WEATHER_BG[bgKey] || (isDay ? WEATHER_BG.clear : WEATHER_BG.clearDark);
@@ -247,7 +248,7 @@ export default function WeatherBackground({ weatherCode, isDay }) {
     <div className='weather-bg fixed inset-0 pointer-events-none overflow-hidden' style={{ zIndex: 0 }}>
       <div className='absolute inset-0 transition-opacity duration-700' style={{ background: bg }} />
       <div className='horizon-glow' style={{ background: horizon }} />
-      {isDay && isClear && <BgSun side="right" />}
+      {showSun && <BgSun side="right" />}
       {clouds}
       {stars}
       {shootingStars}
