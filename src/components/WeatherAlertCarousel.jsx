@@ -23,6 +23,7 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
   const [active, setActive] = useState(0);
   const handleDot = useCallback((i) => setActive(i), []);
   const touchStartX = useRef(null);
+  const pagesRef = useRef(0);
 
   const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
@@ -35,9 +36,9 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
       touchStartX.current = null;
       if (Math.abs(diff) < 50) return;
       if (diff > 0 && active > 0) setActive((a) => a - 1);
-      if (diff < 0 && active < pages.length - 1) setActive((a) => a + 1);
+      if (diff < 0 && active < pagesRef.current - 1) setActive((a) => a + 1);
     },
-    [active, pages.length],
+    [active],
   );
 
   const pages = useMemo(() => {
@@ -352,6 +353,8 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
 
     return result;
   }, [data, airQuality]);
+
+  pagesRef.current = pages.length;
 
   if (pages.length === 0) return null;
 
