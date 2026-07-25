@@ -42,7 +42,7 @@ const DailyForecast = memo(function DailyForecast({ data }) {
 
   return (
     <div ref={ref} className='glass-card'>
-      <div className='divide-y' style={{ borderColor: 'var(--border)' }}>
+      <div>
         {days.map((day, i) => (
           <div
             key={day.time}
