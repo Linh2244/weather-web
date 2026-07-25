@@ -214,8 +214,8 @@ export default function WeatherBackground({ weatherCode, isDay }) {
     return Array.from({ length: count }, (_, i) => {
       const shapeIndex = i % CLOUD_SHAPES.length;
       const size = 0.6 + Math.random() * 0.8;
-      const top = 2 + Math.random() * 25;
-      const left = 10 + Math.random() * 60;
+      const top = Math.random() * 25;
+      const left = Math.random() * 80;
       const opacity = baseOpacity + Math.random() * 0.15;
       const dur = 25 + Math.random() * 25;
       const delay = Math.random() * -30;
