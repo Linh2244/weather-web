@@ -55,7 +55,7 @@ export default function ChartModal({ open, field, hourly, onClose }) {
   }, [open]);
 
   const config = CHART_CONFIG[field];
-  if (!config || !hourly?.length) return null;
+  if (!config || !hourly?.time?.length || !hourly[field]) return null;
 
   const raw = hourly.time.map((t, i) => {
     let val = hourly[field]?.[i];
