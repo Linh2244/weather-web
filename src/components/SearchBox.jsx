@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 import { searchLocation } from '../utils/api';
 import { findClosestLocation, searchLocations } from '../utils/vietnamCities';
-import { SearchIcon, LocationIcon } from './Icons';
+import useSearchHistory from '../hooks/useSearchHistory';
+import { SearchIcon, LocationIcon, ClockIcon } from './Icons';
 
-export default function SearchBox({ onSelect, onClose }) {
+export default function SearchBox({ onSelect }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [open, setOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function SearchBox({ onSelect, onClose }) {
   const debounced = useDebounce(query);
   const ref = useRef();
   const inputRef = useRef();
+  const { history, saveLocation, clearHistory } = useSearchHistory();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -48,8 +50,9 @@ export default function SearchBox({ onSelect, onClose }) {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const handleSelect = (r) => {
+  const doSelect = (r) => {
     const label = r.province ? r.name + ' · ' + r.province : r.name;
+    saveLocation({ lat: r.lat, lon: r.lon, name: label });
     onSelect({ lat: r.lat, lon: r.lon, name: label });
     setQuery('');
     setResults([]);
@@ -67,7 +70,9 @@ export default function SearchBox({ onSelect, onClose }) {
       (pos) => {
         const { latitude: lat, longitude: lon } = pos.coords;
         const loc = findClosestLocation(lat, lon);
-        onSelect({ lat, lon, name: loc.name });
+        const label = loc.province ? loc.name + ' · ' + loc.province : loc.name;
+        saveLocation({ lat, lon, name: label });
+        onSelect({ lat, lon, name: label });
         setGpsLoading(false);
       },
       () => {
@@ -78,6 +83,8 @@ export default function SearchBox({ onSelect, onClose }) {
       { enableHighAccuracy: true, timeout: 8000 }
     );
   };
+
+  const showHistory = open && query.length < 2 && history.length > 0;
 
   return (
     <div ref={ref}>
@@ -90,7 +97,10 @@ export default function SearchBox({ onSelect, onClose }) {
           type='text'
           value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
-          onFocus={() => query.length >= 2 && results.length > 0 && setOpen(true)}
+          onFocus={() => {
+            setOpen(true);
+            if (query.length >= 2 && results.length > 0) setOpen(true);
+          }}
           placeholder='Tìm kiếm địa điểm...'
           className='w-full pl-11 pr-12 py-3 rounded-2xl text-sm outline-none transition-all duration-200'
           style={{
@@ -113,20 +123,46 @@ export default function SearchBox({ onSelect, onClose }) {
         </button>
       </div>
       {gpsError && (
-        <div
-          className='mt-2 rounded-2xl z-50 p-3 text-center text-xs animate-fade-in'
-        >
+        <div className='mt-2 rounded-2xl z-50 p-3 text-center text-xs animate-fade-in'>
           {gpsError}
         </div>
       )}
-      {open && results.length > 0 && (
-        <div
-          className='mt-2 rounded-2xl z-50 overflow-hidden animate-fade-in'
-        >
+      {showHistory ? (
+        <div className='mt-2 rounded-2xl z-50 overflow-hidden animate-fade-in' style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--glass-border)', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}>
+          <div className='flex items-center justify-between px-4 py-2.5' style={{ borderBottom: '1px solid var(--border)' }}>
+            <span className='text-xs font-semibold tracking-wide' style={{ color: 'var(--text-muted)' }}>GẦN ĐÂY</span>
+            <button
+              onClick={clearHistory}
+              className='text-xs transition-colors hover:underline'
+              style={{ color: 'var(--accent)' }}
+            >
+              Xóa lịch sử
+            </button>
+          </div>
+          {history.map((h, i) => (
+            <button
+              key={h.lat + '-' + h.lon}
+              onClick={() => doSelect(h)}
+              className='w-full px-4 py-3 text-left text-sm transition-all flex items-center gap-3 hover:pl-5 active:scale-[0.98] animate-slide-in-up'
+              style={{
+                borderBottom: i < history.length - 1 ? '1px solid var(--border)' : 'none',
+                color: 'var(--text-primary)',
+                animationDelay: `${i * 40}ms`,
+              }}
+            >
+              <ClockIcon size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
+              <div className='flex-1 min-w-0'>
+                <span className='font-medium'>{h.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      ) : open && results.length > 0 ? (
+        <div className='mt-2 rounded-2xl z-50 overflow-hidden animate-fade-in' style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--glass-border)', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}>
           {results.map((r, i) => (
             <button
               key={r.id}
-              onClick={() => handleSelect(r)}
+              onClick={() => doSelect(r)}
               className='w-full px-4 py-3.5 text-left text-sm transition-all flex items-center gap-3 hover:pl-5 active:scale-[0.98] animate-slide-in-up'
               style={{
                 borderBottom: i < results.length - 1 ? '1px solid var(--border)' : 'none',
@@ -142,19 +178,15 @@ export default function SearchBox({ onSelect, onClose }) {
             </button>
           ))}
         </div>
-      )}
+      ) : null}
       {open && query.length >= 2 && results.length === 0 && !loading && (
-        <div
-          className='mt-2 rounded-2xl z-50 p-6 text-center animate-fade-in'
-        >
+        <div className='mt-2 rounded-2xl z-50 p-6 text-center animate-fade-in' style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(20px)', border: '1px solid var(--glass-border)' }}>
           <SearchIcon size={28} style={{ color: 'var(--text-muted)', margin: '0 auto 8px', opacity: 0.5 }} />
           <p className='text-sm' style={{ color: 'var(--text-muted)' }}>Không tìm thấy địa điểm</p>
         </div>
       )}
       {loading && open && (
-        <div
-          className='mt-2 rounded-2xl z-50 p-4 space-y-3 animate-fade-in'
-        >
+        <div className='mt-2 rounded-2xl z-50 p-4 space-y-3 animate-fade-in' style={{ backgroundColor: 'var(--glass-bg)', backdropFilter: 'blur(20px)', border: '1px solid var(--glass-border)' }}>
           {[1, 2, 3].map((i) => (
             <div key={i} className='flex items-center gap-3 px-2'>
               <div className='w-5 h-5 rounded-full shimmer' />

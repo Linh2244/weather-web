@@ -38,10 +38,16 @@ export default function Layout({ children, onSearch, locationName }) {
           onClick={() => setMenuOpen(false)}
         >
           <div
-            className='fixed inset-0 bg-black/40 animate-fade-in'
+            className='fixed inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-[2px] animate-fade-in'
           />
           <div
             className='w-full max-w-sm h-full relative animate-slide-in-left'
+            style={{
+              background: 'linear-gradient(135deg, var(--bg-secondary), var(--bg-primary))',
+              backdropFilter: 'blur(24px) saturate(1.8)',
+              WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
+              boxShadow: '4px 0 24px rgba(0,0,0,0.15)',
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className='flex items-center justify-between px-5 py-4' style={{ borderBottom: '1px solid var(--border)' }}>
