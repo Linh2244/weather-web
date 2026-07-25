@@ -2,9 +2,9 @@
 
 # Thời Tiết — Weather Web
 
-**Trang web thời tiết cho Việt Nam** với giao diện dark/light mode, GPS tự động, animation mượt mà.
+**Trang web thời tiết cho Việt Nam** với GPS tự động, animation mượt mà.
 
-A **weather website for Vietnam** with dark/light mode, GPS detection, and smooth animations.
+A **weather website for Vietnam** with GPS detection, and smooth animations.
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
@@ -29,19 +29,19 @@ A **weather website for Vietnam** with dark/light mode, GPS detection, and smoot
 
 ## Tính năng / Features
 
-- **Thời tiết realtime** — nhiệt độ, độ ẩm, gió, tầm nhìn, áp suất, điểm sương
-- **Dự báo theo giờ** — 24h với biểu đồ nhiệt độ dạng đường + phần trăm mưa
-- **Dự báo 7 ngày** — min/max, thanh nhiệt độ, xác suất mưa
-- **Chỉ số UV** — gauge với thang màu, khuyến nghị bảo vệ da
-- **Chất lượng không khí** — AQI + chi tiết PM2.5, PM10, O₃, NO₂, SO₂
-- **Mặt trời & mặt trăng** — biểu đồ vòm mặt trời realtime, phase mặt trăng
-- **Cảnh báo thời tiết** — carousel 4 trang: tip quan trọng nhất → độ ẩm → cảm giác ngày mai → gió
-- **Tìm kiếm địa điểm** — tìm theo tỉnh/xã/phường tiếng Việt, lưu lịch sử vào localStorage
+- **Thời tiết hiện tại** — nhiệt độ, cảm giác như, cao/thấp trong ngày, mô tả thời tiết, emoji
+- **Dự báo theo giờ** — 24h scrollable, nhiệt độ, xác suất mưa, biểu đồ sparkline, chỉ báo hoàng hôn
+- **Lượng mưa theo giờ** — biểu đồ cột 12h, animation khi cuộn vào
+- **Dự báo 7 ngày** — min/max, thanh nhiệt độ màu, tổng lượng mưa, icon thời tiết
+- **Chi tiết thời tiết** — grid 3×2: UV, độ ẩm, gió, điểm sương, áp suất, tầm nhìn
+- **Chất lượng không khí** — AQI + thanh màu + chi tiết PM2.5, PM10, O₃, NO₂, SO₂
+- **Mặt trời & mặt trăng** — biểu đồ vòm mặt trời realtime, giờ mặt trời mọc/lặn, phase mặt trăng
+- **Cảnh báo thời tiết** — carousel vuốt: tip ưu tiên → độ ẩm → cảm giác ngày mai → gió
+- **Tìm kiếm địa điểm** — tìm tỉnh/xã/phường Việt Nam + API Open-Meteo, lịch sử localStorage, GPS
 - **GPS tự động** — xác định vị trí hiện tại, fallback về Hà Nội
-- **Dark/Light mode** — tự động theo hệ thống, lưu localStorage
-- **PWA** — cài đặt như app trên mobile/desktop
-- **Service Worker** — tự động cập nhật, cache offline
-- **Animations** — spring easing, stagger, shimmer, fade-in, slide-in, reduced-motion hỗ trợ
+- **Hiệu ứng nền động** — gradient theo thời tiết, mây trôi, mưa/tuyết/sương mù, sao, mặt trời/mặt trăng, chớp
+- **PWA** — cài đặt như app trên mobile/desktop, auto update + offline cache
+- **Animations** — spring easing, stagger, shimmer, fade-in, slide-in, count-up, reduced-motion hỗ trợ
 
 ---
 
@@ -96,7 +96,7 @@ npm run dev
 src/
 ├── App.jsx                   # Main app + ThemeProvider + Layout
 ├── main.jsx                  # Entry point
-├── index.css                 # Tailwind + CSS variables (dark/light) + keyframes
+├── index.css                 # Tailwind + CSS variables + keyframes
 ├── constants.js              # API URLs
 ├── components/
 │   ├── AirQuality.jsx        # AQI + pollutant breakdown grid
@@ -110,7 +110,7 @@ src/
 │   ├── RainfallChart.jsx     # Hourly precipitation bars
 │   ├── SearchBox.jsx         # Search + history + GPS
 │   ├── SunMoon.jsx           # Sun arc + moon arc + moon phase
-│   ├── ThemeProvider.jsx     # Dark/light context + localStorage
+│   ├── ThemeProvider.jsx     # Theme context + localStorage
 │   ├── UvIndex.jsx           # UV gauge + color scale
 │   ├── WeatherAlertCarousel.jsx # 4-page tips carousel
 │   ├── WeatherBackground.jsx # Dynamic gradient + particles
@@ -120,12 +120,14 @@ src/
 │   ├── useGeolocation.js     # GPS auto-detect
 │   ├── useInView.js          # IntersectionObserver scroll animation
 │   ├── useSearchHistory.js   # localStorage search history
-│   └── useWeatherData.js     # Weather + AQI data fetching
+│   └── useWeather.js         # Weather + AQI data fetching
 └── utils/
     ├── api.js                # fetchWeather, fetchAirQuality, searchLocation
     ├── formatters.js         # formatTemp, formatTime, getWindDirection, etc.
+    ├── locations.js          # ALL_LOCATIONS (tỉnh/xã/phường Việt Nam)
     ├── moonPhase.js          # Moon phase from Julian day
-    └── vietnamCities.js      # VIETNAM_CITIES + findClosestLocation
+    ├── vietnamCities.js      # VIETNAM_CITIES + findClosestLocation + searchLocations
+    └── weatherCodes.js       # WMO code → icon name + description mapping
 ```
 
 ---
