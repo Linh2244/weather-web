@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useInView } from '../hooks/useInView';
 import { getWeatherDescription } from '../utils/formatters';
-import WeatherIcon from './WeatherIcon';
 
 function AnimatedTemp({ value }) {
   const [display, setDisplay] = useState(value);

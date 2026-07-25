@@ -62,7 +62,7 @@ function WeatherApp() {
             <CurrentWeather data={weather} locationName={locationName} />
             <HourlyForecast data={weather} />
             <RainfallChart data={weather} />
-            <WeatherAlertCarousel weatherCode={weatherCode} />
+            <WeatherAlertCarousel data={weather} airQuality={airQuality} />
             <DailyForecast data={weather} />
             <AirQuality data={airQuality} />
             <DetailsGrid data={weather} />
