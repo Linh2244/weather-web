@@ -38,10 +38,12 @@ function WeatherApp() {
 
   const weatherCode = weather?.current?.weather_code;
   const isDay = weather?.current?.is_day !== 0;
+  const sunrise = weather?.daily?.sunrise?.[0];
+  const sunset = weather?.daily?.sunset?.[0];
 
   return (
     <>
-      <WeatherBackground weatherCode={weatherCode} isDay={isDay} />
+      <WeatherBackground weatherCode={weatherCode} isDay={isDay} sunrise={sunrise} sunset={sunset} />
       <Layout onSearch={handleSearch}>
         {loading && <Loading locationName={locationName} />}
         {error && (

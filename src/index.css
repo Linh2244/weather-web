@@ -170,7 +170,6 @@ body {
 /* === SUN (BG) === */
 .sun {
   position: absolute;
-  top: 4%;
   transform: translateX(-50%);
   pointer-events: none;
   z-index: 1;
@@ -196,6 +195,35 @@ body {
 @keyframes sunGlow {
   0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
   50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* === MOON (BG) === */
+.moon {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+.moon-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(200,210,230,0.15) 0%, transparent 60%);
+  animation: moonGlowBg 4s ease-in-out infinite;
+}
+.moon-body {
+  width: 80px;
+  height: 80px;
+  display: block;
+  filter: drop-shadow(0 0 12px rgba(200,210,230,0.25));
+}
+@keyframes moonGlowBg {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.1); }
 }
 
 /* === THUNDER === */
@@ -458,6 +486,7 @@ body {
   .stagger-children > .stagger-item { opacity: 1 !important; transform: none !important; transition: none !important; }
   .rain-drop, .snow-flake, .star, .shooting-star,
   .fog-layer, .thunder-flash,
-  .cloud, .sun, .sun-glow, .sun-body { animation: none !important; }
+  .cloud, .sun, .sun-glow, .sun-body,
+  .moon, .moon-glow, .moon-body { animation: none !important; }
   * { transition-duration: 0.01ms !important; }
 }

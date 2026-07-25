@@ -65,10 +65,34 @@ function BgCloud({ shapeIndex, className, style }) {
   );
 }
 
-function BgSun({ side }) {
-  const left = side === 'left' ? 5 : side === 'right' ? 60 : 30;
+function getSunPosition(sunrise, sunset) {
+  const now = Date.now();
+  const dayLen = new Date(sunset) - new Date(sunrise);
+  const elapsed = now - new Date(sunrise);
+  let progress = dayLen > 0 ? elapsed / dayLen : 0.5;
+  progress = Math.max(0, Math.min(1, progress));
+
+  const left = progress * 85;
+  const top = 2 + Math.sin(progress * Math.PI) * 23;
+  return { left, top, progress };
+}
+
+function getMoonPosition(sunset, sunrise) {
+  const now = Date.now();
+  const nightLen = ((new Date(sunrise).getTime() + 86400000) - new Date(sunset).getTime()) % 86400000;
+  const elapsed = (now - new Date(sunset).getTime() + 86400000) % 86400000;
+  let progress = nightLen > 0 ? elapsed / nightLen : 0.5;
+  progress = Math.max(0, Math.min(1, progress));
+
+  const left = progress * 85;
+  const top = 2 + Math.sin(progress * Math.PI) * 23;
+  return { left, top, progress };
+}
+
+function BgSun({ sunrise, sunset }) {
+  const { left, top } = getSunPosition(sunrise, sunset);
   return (
-    <div className='sun' style={{ left: left + '%' }}>
+    <div className='sun' style={{ left: left + '%', top: top + '%' }}>
       <div className='sun-glow' />
       <svg viewBox="0 0 100 100" fill="none" className='sun-body'>
         <circle cx="50" cy="50" r="22" fill="#FFD93D" />
@@ -77,6 +101,22 @@ function BgSun({ side }) {
             stroke="#FFD93D" strokeWidth="3" strokeLinecap="round"
             transform={`rotate(${30 * i}, 50, 50)`} opacity="0.6" />
         ))}
+      </svg>
+    </div>
+  );
+}
+
+function BgMoon({ sunset, sunrise }) {
+  const { left, top } = getMoonPosition(sunset, sunrise);
+  return (
+    <div className='moon' style={{ left: left + '%', top: top + '%' }}>
+      <div className='moon-glow' />
+      <svg viewBox="0 0 100 100" fill="none" className='moon-body'>
+        <circle cx="50" cy="50" r="20" fill="#E2E8F0" />
+        <circle cx="42" cy="42" r="14" fill="#0F172A" opacity="0.35" />
+        <circle cx="56" cy="56" r="8" fill="#0F172A" opacity="0.25" />
+        <circle cx="52" cy="36" r="3" fill="#CBD5E1" opacity="0.3" />
+        <circle cx="62" cy="44" r="2" fill="#CBD5E1" opacity="0.25" />
       </svg>
     </div>
   );
@@ -156,12 +196,19 @@ function getWeatherType(code) {
   return 'clear';
 }
 
-function isSunriseSunset() {
-  const h = new Date().getHours();
-  return (h >= 5 && h < 7) || (h >= 17 && h < 19);
+function isSunriseSunset(sunrise, sunset) {
+  if (!sunrise || !sunset) {
+    const h = new Date().getHours();
+    return (h >= 5 && h < 7) || (h >= 17 && h < 19);
+  }
+  const now = Date.now();
+  const sr = new Date(sunrise).getTime();
+  const ss = new Date(sunset).getTime();
+  const margin = 60 * 60 * 1000;
+  return (now >= sr - margin && now <= sr + margin) || (now >= ss - margin && now <= ss + margin);
 }
 
-export default function WeatherBackground({ weatherCode, isDay }) {
+export default function WeatherBackground({ weatherCode, isDay, sunrise, sunset }) {
   const weatherType = getWeatherType(weatherCode);
   const isRain = weatherType === 'rain' || weatherType === 'drizzle' || weatherType === 'thunder';
   const isSnow = weatherType === 'snow';
@@ -172,12 +219,13 @@ export default function WeatherBackground({ weatherCode, isDay }) {
   const isOvercast = weatherType === 'overcast';
   const showStars = !isDay && (isClear || isCloudy);
   const showClouds = !isClear && !isFog;
-  const showSun = isDay && isClear;
+  const showSun = isDay && isClear && sunrise && sunset;
+  const showMoon = !isDay && (isClear || isCloudy) && sunset && sunrise;
 
   const bgKey = isDay ? weatherType : weatherType + 'Dark';
   const bg = WEATHER_BG[bgKey] || (isDay ? WEATHER_BG.clear : WEATHER_BG.clearDark);
 
-  const horizonKey = !isDay ? 'night' : isSunriseSunset() ? 'sunset' : 'day';
+  const horizonKey = !isDay ? 'night' : isSunriseSunset(sunrise, sunset) ? 'sunset' : 'day';
   const horizon = HORIZON_GLOW[horizonKey];
 
   const stars = useMemo(() => {
@@ -248,7 +296,8 @@ export default function WeatherBackground({ weatherCode, isDay }) {
     <div className='weather-bg fixed inset-0 pointer-events-none overflow-hidden' style={{ zIndex: 0 }}>
       <div className='absolute inset-0 transition-opacity duration-700' style={{ background: bg }} />
       <div className='horizon-glow' style={{ background: horizon }} />
-      {showSun && <BgSun side="right" />}
+      {showSun && <BgSun sunrise={sunrise} sunset={sunset} />}
+      {showMoon && <BgMoon sunset={sunset} sunrise={sunrise} />}
       {clouds}
       {stars}
       {shootingStars}
