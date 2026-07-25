@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import WeatherIcon from './WeatherIcon';
 import { getWindDirection, getWeatherDescription } from '../utils/formatters';
 import { useInView } from '../hooks/useInView';
 import { ThermometerIcon, DropletIcon, WindDirIcon, RainIcon, EyeIcon, GaugeIcon, SnowflakeIcon, UVIcon } from './Icons';
@@ -66,9 +65,6 @@ export default function CurrentWeather({ data, locationName }) {
         <p className='hero-temp animate-count'>
           <AnimatedTemp value={Math.round(c.temperature_2m)} />
         </p>
-        <div className='animate-scale-in' style={{ animationDelay: '200ms' }}>
-          <WeatherIcon code={c.weather_code} size={48} isDay={c.is_day !== 0} />
-        </div>
       </div>
 
       <p className='text-lg mb-1 animate-fade-slide-up' style={{ color: 'var(--text-secondary)', animationDelay: '100ms' }}>{desc}</p>
