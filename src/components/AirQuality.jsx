@@ -22,7 +22,7 @@ const AirQuality = memo(function AirQuality({ data }) {
   return (
     <div ref={ref} className='glass-card'>
       <div className='flex items-center gap-2 mb-3'>
-        <span className='text-xs font-semibold tracking-wide' style={{ color: 'var(--text-muted)' }}>AQI</span>
+        <span className='text-xs font-semibold tracking-wide' style={{ color: 'var(--text-muted)' }}>Chất lượng không khí</span>
       </div>
 
       <div className='flex items-baseline gap-2 mb-3'>

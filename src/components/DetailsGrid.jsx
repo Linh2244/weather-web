@@ -17,7 +17,7 @@ const DetailsGrid = memo(function DetailsGrid({ data }) {
     { icon: <DropletIcon size={18} />, label: 'Độ ẩm', value: c.relative_humidity_2m != null ? `${c.relative_humidity_2m}%` : '--' },
     { icon: <WindIcon size={18} />, label: 'Gió', value: c.wind_speed_10m != null ? `${c.wind_speed_10m} km/h` : '--' },
     { icon: <SnowflakeIcon size={18} />, label: 'Điểm sương', value: c.dew_point_2m != null ? `${Math.round(c.dew_point_2m)}°` : '--' },
-    { icon: <GaugeIcon size={18} />, label: 'Áp suất', value: c.surface_pressure ? `${(c.surface_pressure / 10).toFixed(1)} mb` : '--' },
+    { icon: <GaugeIcon size={18} />, label: 'Áp suất', value: c.surface_pressure ? `${(c.surface_pressure / 10).toFixed(1)} hPa` : '--' },
     { icon: <EyeIcon size={18} />, label: 'Tầm nhìn', value: visKm != null ? `${visKm} km` : '--' },
   ];
 

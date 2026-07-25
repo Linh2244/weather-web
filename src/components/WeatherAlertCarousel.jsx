@@ -24,9 +24,21 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
   const handleDot = useCallback((i) => setActive(i), []);
   const touchStartX = useRef(null);
   const pagesRef = useRef(0);
+  const dragOffset = useRef(0);
+  const [dragX, setDragX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleTouchStart = useCallback((e) => {
     touchStartX.current = e.touches[0].clientX;
+    dragOffset.current = 0;
+    setIsDragging(true);
+  }, []);
+
+  const handleTouchMove = useCallback((e) => {
+    if (touchStartX.current == null) return;
+    const diff = e.touches[0].clientX - touchStartX.current;
+    dragOffset.current = diff;
+    setDragX(diff);
   }, []);
 
   const handleTouchEnd = useCallback(
@@ -34,6 +46,8 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
       if (touchStartX.current == null) return;
       const diff = e.changedTouches[0].clientX - touchStartX.current;
       touchStartX.current = null;
+      setIsDragging(false);
+      setDragX(0);
       if (Math.abs(diff) < 50) return;
       if (diff > 0 && active > 0) setActive((a) => a - 1);
       if (diff < 0 && active < pagesRef.current - 1) setActive((a) => a + 1);
@@ -360,34 +374,49 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
 
   if (pages.length === 0) return null;
 
-  const page = pages[active] || pages[0];
+  const translateX = isDragging
+    ? `calc(-${active * 100}% + ${dragX}px)`
+    : `-${active * 100}%`;
 
   return (
     <div
-      className='glass-card'
+      className='glass-card overflow-hidden'
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className='flex items-start gap-3'>
-        <div
-          className='w-11 h-11 rounded-full flex items-center justify-center shrink-0'
-          style={{ backgroundColor: 'var(--accent-soft)' }}
-        >
-          <span style={{ color: 'var(--accent)' }}>{page.icon}</span>
-        </div>
-        <div className='flex-1 min-w-0'>
-          <p className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>{page.title}</p>
-          <p className='text-xs mt-0.5' style={{ color: 'var(--text-secondary)' }}>{page.desc}</p>
-        </div>
-        {page.value && (
-          <div className='flex items-center gap-1 shrink-0' style={{ color: 'var(--accent)' }}>
-            <span className='text-sm font-semibold'>{page.value}</span>
+      <div
+        className='flex transition-transform duration-300 ease-out'
+        style={{
+          transform: `translateX(${translateX})`,
+          transitionDuration: isDragging ? '0s' : '0.3s',
+        }}
+      >
+        {pages.map((page, i) => (
+          <div key={i} className='w-full shrink-0 px-4 py-3'>
+            <div className='flex items-start gap-3'>
+              <div
+                className='w-11 h-11 rounded-full flex items-center justify-center shrink-0'
+                style={{ backgroundColor: 'var(--accent-soft)' }}
+              >
+                <span style={{ color: 'var(--accent)' }}>{page.icon}</span>
+              </div>
+              <div className='flex-1 min-w-0'>
+                <p className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>{page.title}</p>
+                <p className='text-xs mt-0.5' style={{ color: 'var(--text-secondary)' }}>{page.desc}</p>
+              </div>
+              {page.value && (
+                <div className='flex items-center gap-1 shrink-0' style={{ color: 'var(--accent)' }}>
+                  <span className='text-sm font-semibold'>{page.value}</span>
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        ))}
       </div>
 
       {pages.length > 1 && (
-        <div className='flex items-center justify-center gap-1.5 mt-3'>
+        <div className='flex items-center justify-center gap-1.5 pb-3'>
           {pages.map((_, i) => (
             <button
               key={i}
