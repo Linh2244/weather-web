@@ -16,8 +16,8 @@ export default defineConfig({
         theme_color: '#0ea5e9',
         background_color: '#0ea5e9',
         display: 'standalone',
-        start_url: '/weather-web/',
-        scope: '/weather-web/',
+        start_url: '/',
+        scope: '/',
         icons: [
           { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }
         ],
