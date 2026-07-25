@@ -14,10 +14,15 @@ import { useWeatherData } from './hooks/useWeather';
 import { AlertIcon } from './components/Icons';
 
 function WeatherApp() {
-  const { coords, loading: geoLoading } = useGeolocation();
+  const { coords, setCoords, loading: geoLoading } = useGeolocation();
   const { weather, airQuality, loading, error } = useWeatherData(coords.lat, coords.lon);
   const [locationName, setLocationName] = useState('Đang xác định vị trí...');
   const [errorKey, setErrorKey] = useState(0);
+
+  const handleSearch = (loc) => {
+    setCoords(loc);
+    setLocationName(loc.name);
+  };
 
   useEffect(() => {
     if (coords.name && coords.name !== 'Vi tri cua ban') {
@@ -39,7 +44,7 @@ function WeatherApp() {
   return (
     <>
       <WeatherBackground weatherCode={weatherCode} isDay={isDay} sunrise={sunrise} sunset={sunset} />
-      <Layout>
+      <Layout onSearch={handleSearch}>
         {loading && <Loading locationName={locationName} />}
         {error && (
           <div key={errorKey} className='glass-card text-center animate-shake py-10'>

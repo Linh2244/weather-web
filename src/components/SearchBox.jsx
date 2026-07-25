@@ -83,7 +83,7 @@ export default function SearchBox({ onSelect }) {
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => query.length >= 2 && results.length > 0 && setOpen(true)}
           placeholder='Tìm kiếm địa điểm...'
-          className='w-full pl-10 pr-10 py-2.5 rounded-xl text-sm outline-none transition-all duration-200'
+          className='w-full pl-10 pr-10 py-2.5 rounded-2xl text-sm outline-none transition-all duration-200'
           style={{
             backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(12px)',
@@ -95,7 +95,7 @@ export default function SearchBox({ onSelect }) {
         <button
           onClick={handleGps}
           disabled={gpsLoading}
-          className='absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg flex items-center justify-center transition-all disabled:opacity-50'
+          className='absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-xl flex items-center justify-center transition-all disabled:opacity-50'
           style={{ color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}
           title='Vị trí hiện tại'
         >
