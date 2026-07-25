@@ -35,7 +35,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
           const barH = Math.max(pct * barMaxH, h.value > 0 ? 2 : 0);
           return (
             <div key={h.time} className='flex-1 flex flex-col items-center gap-1'>
-              <span className='text-[9px] font-medium' style={{ color: 'var(--text-muted)' }}>
+              <span className='text-[11px] font-medium' style={{ color: 'var(--text-muted)' }}>
                 {h.value > 0 ? h.value.toFixed(h.value >= 10 ? 1 : 2) : ''}
               </span>
               <div
@@ -51,7 +51,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
                   borderRadius: 2,
                 }}
               />
-              <span className='text-[9px]' style={{ color: 'var(--text-muted)' }}>
+              <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>
                 {formatHour(h.time).replace(':00', '')}
               </span>
             </div>

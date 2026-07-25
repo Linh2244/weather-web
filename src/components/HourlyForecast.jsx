@@ -74,19 +74,19 @@ const HourlyForecast = memo(function HourlyForecast({ data }) {
         <div className='flex gap-0' style={{ minWidth: hours.length * 48 }}>
           {hours.map((h, i) => (
             <div key={h.time} className='flex flex-col items-center gap-1' style={{ width: 48 }}>
-              <span className='text-[10px] font-medium whitespace-nowrap' style={{ color: h.isSunset ? '#6366f1' : 'var(--text-muted)' }}>
+              <span className='text-[11px] font-medium whitespace-nowrap' style={{ color: h.isSunset ? '#6366f1' : 'var(--text-muted)' }}>
                 {h.isSunset ? 'Hoàng hôn' : h.isNow ? 'Bây giờ' : formatHour(h.time)}
               </span>
               <span style={{ opacity: h.isSunset ? 0.7 : 1, transform: h.isSunset ? 'scale(0.75)' : 'scale(0.65)', transformOrigin: 'center', display: 'inline-flex' }}>
                 {h.isSunset ? <SunsetIcon size={26} /> : <WeatherIcon code={h.code} size={26} />}
               </span>
-              <span className='text-[11px] font-semibold' style={{ color: 'var(--text-primary)' }}>{h.temp}°</span>
+              <span className='text-[12px] font-semibold' style={{ color: 'var(--text-primary)' }}>{h.temp}°</span>
               {h.precip > 0 && (
-                <span className='text-[9px] flex items-center gap-0.5' style={{ color: 'var(--accent)' }}>
+                <span className='text-[11px] flex items-center gap-0.5' style={{ color: 'var(--accent)' }}>
                   <DropletIcon size={8} />{h.precip}%
                 </span>
               )}
-              {!h.precip && <span style={{ height: 13 }} />}
+              {!h.precip && <span style={{ height: 14 }} />}
             </div>
           ))}
         </div>

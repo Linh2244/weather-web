@@ -43,13 +43,13 @@ const UvIndex = memo(function UvIndex({ data }) {
         <div className='flex gap-4 mt-3 pt-3' style={{ borderTop: '1px solid var(--border)' }}>
           <div className='flex items-center gap-1.5'>
             <span className='w-1.5 h-1.5 rounded-full bg-blue-500' />
-            <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>
+            <span className='text-[12px]' style={{ color: 'var(--text-muted)' }}>
               Hiện tại: <span className='font-semibold' style={{ color: 'var(--text-primary)' }}>{currentUV.toFixed(1)}</span>
             </span>
           </div>
           <div className='flex items-center gap-1.5'>
             <span className='w-1.5 h-1.5 rounded-full bg-orange-500' />
-            <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>
+            <span className='text-[12px]' style={{ color: 'var(--text-muted)' }}>
               Cao nhất: <span className='font-semibold' style={{ color: 'var(--text-primary)' }}>{dailyUV.toFixed(1)}</span>
             </span>
           </div>

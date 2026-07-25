@@ -73,15 +73,15 @@ const AirQuality = memo(function AirQuality({ data }) {
         />
       </div>
 
-      <div className='grid grid-cols-5 gap-2'>
+      <div className='grid grid-cols-3 sm:grid-cols-5 gap-1.5 sm:gap-2'>
         {POLLUTANTS.map((p) => {
           const val = c[p.key];
           const level = getPollutantLevel(val, p.key);
           return (
             <div key={p.key} className='text-center'>
-              <p className='text-[10px] font-medium' style={{ color: 'var(--text-muted)' }}>{p.label}</p>
+              <p className='text-[11px] font-medium' style={{ color: 'var(--text-muted)' }}>{p.label}</p>
               <p className='text-sm font-semibold mt-0.5' style={{ color: level.color }}>{val != null ? Math.round(val) : '--'}</p>
-              <p className='text-[9px]' style={{ color: 'var(--text-muted)' }}>{val != null ? p.unit : ''}</p>
+              <p className='text-[11px]' style={{ color: 'var(--text-muted)' }}>{val != null ? p.unit : ''}</p>
             </div>
           );
         })}

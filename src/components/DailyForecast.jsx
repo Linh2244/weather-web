@@ -40,32 +40,51 @@ const DailyForecast = memo(function DailyForecast({ data }) {
     return all.slice(0, 7);
   }, [d]);
 
+  const globalMin = useMemo(() => Math.min(...days.map(d => d.minT)), [days]);
+  const globalMax = useMemo(() => Math.max(...days.map(d => d.maxT)), [days]);
+  const tempRange = Math.max(globalMax - globalMin, 5);
+
   return (
     <div ref={ref} className='glass-card'>
       <div>
         {days.map((day, i) => (
           <div
             key={day.time}
-            className='flex items-center gap-2 py-2.5'
+            className='flex items-center gap-1.5 sm:gap-3 py-3'
             style={{
               opacity: inView ? 1 : 0,
               transform: inView ? 'translateY(0)' : 'translateY(6px)',
               transition: `opacity 0.3s ease ${i * 40}ms, transform 0.3s ease ${i * 40}ms`,
             }}
           >
-            <span className='text-[13px] w-[60px] shrink-0 font-medium' style={{ color: day.isYesterday ? 'var(--text-muted)' : 'var(--text-primary)' }}>
+            <span className='text-[14px] w-[60px] shrink-0 font-medium' style={{ color: day.isYesterday ? 'var(--text-muted)' : 'var(--text-primary)' }}>
               {formatDayFull(day.time)}
             </span>
-            <span className='text-[11px] flex items-center gap-0.5 w-[50px] shrink-0' style={{ color: 'var(--accent)' }}>
+            <span className='text-[12px] flex items-center gap-0.5 w-12 sm:w-[55px] shrink-0' style={{ color: 'var(--accent)' }}>
               <DropletIcon size={10} />{Math.round(day.precip)}%
             </span>
-            <div className='flex items-center gap-1' style={{ transform: 'scale(0.65)', transformOrigin: 'left center' }}>
+            <div className='flex items-center gap-1' style={{ transform: 'scale(0.75)', transformOrigin: 'left center' }}>
               <WeatherIcon code={day.code} size={26} />
             </div>
-            <span className='text-[13px] w-12 text-right font-medium' style={{ color: 'var(--text-muted)' }}>
+            <span className='text-[14px] w-10 sm:w-14 text-right font-medium shrink-0' style={{ color: 'var(--text-muted)' }}>
               {day.minT}°
             </span>
-            <span className='text-[13px] w-12 shrink-0 font-semibold text-right' style={{ color: 'var(--text-primary)' }}>
+            <div className='flex-1 mx-1 sm:mx-1.5 h-[5px] rounded-full relative overflow-hidden' style={{ backgroundColor: 'var(--border)' }}>
+              <div
+                className='absolute top-0 h-full rounded-full transition-all duration-500'
+                style={{
+                  left: `${((day.minT - globalMin) / tempRange) * 100}%`,
+                  width: `${Math.max(((day.maxT - day.minT) / tempRange) * 100, 4)}%`,
+                  background: day.maxT > 32
+                    ? 'linear-gradient(to right, #60a5fa, #f97316)'
+                    : day.maxT > 25
+                    ? 'linear-gradient(to right, #60a5fa, #34d399)'
+                    : 'linear-gradient(to right, #60a5fa, #93c5fd)',
+                  opacity: 0.7,
+                }}
+              />
+            </div>
+            <span className='text-[14px] w-10 sm:w-14 shrink-0 font-semibold text-right' style={{ color: 'var(--text-primary)' }}>
               {day.maxT}°
             </span>
           </div>

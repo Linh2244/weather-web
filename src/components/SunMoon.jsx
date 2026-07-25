@@ -122,18 +122,18 @@ const SunMoon = memo(function SunMoon({ daily }) {
         <div className='flex items-center gap-2'>
           {isDaytime ? <SunriseIcon size={16} style={{ color: '#f97316' }} /> : <SunsetIcon size={16} style={{ color: '#6366f1' }} />}
           <div>
-            <p className='text-[10px]' style={{ color: 'var(--text-muted)' }}>{isDaytime ? 'Bình minh' : 'Hoàng hôn'}</p>
-            <p className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(isDaytime ? daily.sunrise[0] : daily.sunset[0])}</p>
+            <p className='text-[11px] sm:text-xs' style={{ color: 'var(--text-muted)' }}>{isDaytime ? 'Bình minh' : 'Hoàng hôn'}</p>
+            <p className='text-xs sm:text-sm font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(isDaytime ? daily.sunrise[0] : daily.sunset[0])}</p>
           </div>
         </div>
         <div className='flex items-center gap-1.5'>
           <ClockIcon size={13} style={{ color: 'var(--text-muted)' }} />
-          <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>{daylightH}h {daylightM}m</span>
+          <span className='text-[12px]' style={{ color: 'var(--text-muted)' }}>{daylightH}h {daylightM}m</span>
         </div>
         <div className='flex items-center gap-2'>
           <div className='text-right'>
-            <p className='text-[10px]' style={{ color: 'var(--text-muted)' }}>{isDaytime ? 'Hoàng hôn' : 'Bình minh'}</p>
-            <p className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(isDaytime ? daily.sunset[0] : daily.sunrise[0])}</p>
+            <p className='text-[11px] sm:text-xs' style={{ color: 'var(--text-muted)' }}>{isDaytime ? 'Hoàng hôn' : 'Bình minh'}</p>
+            <p className='text-xs sm:text-sm font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(isDaytime ? daily.sunset[0] : daily.sunrise[0])}</p>
           </div>
           {isDaytime ? <SunsetIcon size={16} style={{ color: '#6366f1' }} /> : <SunriseIcon size={16} style={{ color: '#f97316' }} />}
         </div>

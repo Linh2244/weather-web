@@ -22,7 +22,7 @@ const DetailsGrid = memo(function DetailsGrid({ data }) {
   ];
 
   return (
-    <div ref={ref} className='grid grid-cols-3 gap-3'>
+    <div ref={ref} className='grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3'>
       {items.map((item, i) => (
         <div
           key={item.label}
@@ -34,8 +34,8 @@ const DetailsGrid = memo(function DetailsGrid({ data }) {
           }}
         >
           <span style={{ color: 'var(--text-muted)' }}>{item.icon}</span>
-          <p className='text-[20px] font-semibold mt-1 leading-tight' style={{ color: 'var(--text-primary)' }}>{item.value}</p>
-          <p className='text-[10px] mt-0.5' style={{ color: 'var(--text-muted)' }}>{item.label}</p>
+          <p className='text-base sm:text-[20px] font-semibold mt-1 leading-tight' style={{ color: 'var(--text-primary)' }}>{item.value}</p>
+          <p className='text-[11px] mt-0.5' style={{ color: 'var(--text-muted)' }}>{item.label}</p>
         </div>
       ))}
     </div>

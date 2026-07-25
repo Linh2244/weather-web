@@ -26,6 +26,7 @@ export default function Layout({ children, onSearch, locationName }) {
       <header
         className='fixed top-0 left-0 right-0 z-50'
         style={{
+          paddingTop: 'env(safe-area-inset-top)',
           background: 'var(--glass-bg)',
           backdropFilter: 'blur(20px) saturate(1.8)',
           WebkitBackdropFilter: 'blur(20px) saturate(1.8)',
@@ -35,7 +36,7 @@ export default function Layout({ children, onSearch, locationName }) {
         <div className='max-w-2xl mx-auto px-4 py-3 flex items-center justify-between'>
           <button
             onClick={() => openMenu()}
-            className='w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95'
+            className='w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95'
             style={{ color: 'var(--text-primary)' }}
           >
             <MenuIcon size={20} />
@@ -44,7 +45,7 @@ export default function Layout({ children, onSearch, locationName }) {
             <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>{locationName}</span>
             <LocationIcon size={14} style={{ color: 'var(--accent)' }} />
           </div>
-          <div className='w-9' />
+          <div className='w-10 sm:w-11' />
         </div>
       </header>
 
@@ -70,7 +71,7 @@ export default function Layout({ children, onSearch, locationName }) {
               <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>Tìm kiếm</span>
               <button
                 onClick={() => closeMenu()}
-                className='w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-white/10 active:scale-90'
+                className='w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:bg-white/10 active:scale-90'
                 style={{ color: 'var(--text-muted)' }}
               >
                 <CloseIcon size={18} />
@@ -84,7 +85,7 @@ export default function Layout({ children, onSearch, locationName }) {
         </div>
       )}
 
-      <main className='max-w-2xl mx-auto px-4 pt-16 pb-8 space-y-4' style={{ position: 'relative', zIndex: 1 }}>
+      <main className='max-w-2xl mx-auto px-4 pt-16 pb-8 space-y-4' style={{ position: 'relative', zIndex: 1, paddingBottom: 'calc(2rem + env(safe-area-inset-bottom))' }}>
         {children}
       </main>
     </div>

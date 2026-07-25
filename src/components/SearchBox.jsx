@@ -113,7 +113,7 @@ export default function SearchBox({ onSelect }) {
         <button
           onClick={handleGps}
           disabled={gpsLoading}
-          className='absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center transition-all disabled:opacity-50 hover:scale-110 active:scale-90'
+          className='absolute right-2.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-all disabled:opacity-50 hover:scale-110 active:scale-90'
           style={{ color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}
           title='Vị trí hiện tại'
         >

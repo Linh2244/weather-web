@@ -52,7 +52,7 @@ export default function CurrentWeather({ data, locationName }) {
     <div className='pt-6'>
       <div className='flex items-start justify-between gap-4'>
         <div className='flex-1 min-w-0'>
-          <div className='hero-temp text-left'>
+          <div className='text-temp-lg sm:text-hero text-left'>
             <AnimatedTemp value={Math.round(c.temperature_2m)} />
           </div>
           <p className='text-base font-medium mt-1' style={{ color: 'var(--text-secondary)' }}>{desc}</p>
@@ -64,10 +64,10 @@ export default function CurrentWeather({ data, locationName }) {
         </div>
         <div className='shrink-0'>
           <div
-            className='w-[120px] h-[120px] rounded-3xl flex items-center justify-center'
+            className='w-20 h-20 sm:w-[120px] sm:h-[120px] rounded-3xl flex items-center justify-center'
             style={{ backgroundColor: 'var(--accent-soft)' }}
           >
-            <span className='text-7xl leading-none' style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}>
+            <span className='text-4xl sm:text-7xl leading-none' style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}>
               {getWeatherEmoji(c.weather_code, c.is_day)}
             </span>
           </div>

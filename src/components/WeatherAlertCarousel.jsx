@@ -421,10 +421,10 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
             <button
               key={i}
               onClick={() => handleDot(i)}
-              className='rounded-full transition-all duration-200'
+              className='rounded-full transition-all duration-200 flex items-center justify-center'
               style={{
-                width: i === active ? 20 : 6,
-                height: 6,
+                width: i === active ? 24 : 8,
+                height: 8,
                 backgroundColor: i === active ? 'var(--accent)' : 'var(--border)',
               }}
             />
