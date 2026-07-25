@@ -174,8 +174,11 @@ export function ThermometerIcon({ size = 16, ...props }) {
 
 export function MoonIcon({ size = 16, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={s} {...props}>
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={s} {...props}>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor"/>
+      <circle cx="17.5" cy="7.5" r="0.8" fill="currentColor" opacity="0.4"/>
+      <circle cx="19" cy="11" r="0.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="15" cy="5" r="0.5" fill="currentColor" opacity="0.3"/>
     </svg>
   );
 }
