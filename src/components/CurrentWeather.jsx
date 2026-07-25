@@ -25,6 +25,21 @@ function AnimatedTemp({ value }) {
   return <>{display}°</>;
 }
 
+function getWeatherEmoji(code, isDay) {
+  if (code >= 95 && code <= 99) return '⛈️';
+  if (code >= 71 && code <= 77) return '🌨️';
+  if (code >= 85 && code <= 86) return '🌨️';
+  if (code >= 61 && code <= 67) return '🌧️';
+  if (code >= 80 && code <= 82) return '🌧️';
+  if (code >= 51 && code <= 55) return '🌦️';
+  if (code === 45 || code === 48) return '🌫️';
+  if (code === 3) return '☁️';
+  if (code === 2) return '⛅';
+  if (code === 1) return '🌤️';
+  if (code === 0) return isDay ? '☀️' : '🌙';
+  return isDay ? '☀️' : '🌙';
+}
+
 export default function CurrentWeather({ data, locationName }) {
   if (!data?.current) return null;
   const c = data.current;
@@ -35,8 +50,8 @@ export default function CurrentWeather({ data, locationName }) {
 
   return (
     <div className='pt-6'>
-      <div className='flex items-start justify-between'>
-        <div className='flex-1'>
+      <div className='flex items-start justify-between gap-4'>
+        <div className='flex-1 min-w-0'>
           <div className='hero-temp text-left'>
             <AnimatedTemp value={Math.round(c.temperature_2m)} />
           </div>
@@ -47,31 +62,15 @@ export default function CurrentWeather({ data, locationName }) {
             </p>
           )}
         </div>
-        <div className='shrink-0 -mt-2 -mr-3'>
-          <svg viewBox="0 0 140 140" width="140" height="140">
-            <g opacity="0.3">
-              <path d="M25 75 Q30 60 45 62 Q50 48 65 50 Q70 40 85 45 Q95 35 105 42 Q110 50 105 60 Q115 58 120 68 Q122 78 112 82 H30 Q22 80 25 75Z" fill="#60a5fa"/>
-              <path d="M50 58 Q55 46 68 48 Q72 38 85 42 Q92 34 100 40 Q104 46 100 54 Q108 52 112 60 Q114 68 106 72 H52 Q46 70 48 62Z" fill="#93c5fd" opacity="0.6"/>
-            </g>
-            <circle cx="65" cy="82" r="4" fill="#3b82f6" opacity="0.3"/>
-            <circle cx="80" cy="85" r="5" fill="#3b82f6" opacity="0.25"/>
-            <circle cx="75" cy="90" r="3" fill="#3b82f6" opacity="0.3"/>
-            <circle cx="88" cy="80" r="4" fill="#3b82f6" opacity="0.2"/>
-            <path d="M110 96 Q112 94 116 96 Q114 100 110 96Z" fill="#3b82f6" opacity="0.4"/>
-            <path d="M118 100 Q120 98 124 100 Q122 104 118 100Z" fill="#3b82f6" opacity="0.3"/>
-            <g transform="translate(0, 0)">
-              <circle cx="105" cy="78" r="2.5" fill="#f59e0b" opacity="0.15"/>
-              <circle cx="105" cy="78" r="5" fill="none" stroke="#f59e0b" strokeWidth="0.5" opacity="0.1"/>
-            </g>
-            <g transform="translate(15, 95)">
-              <circle cx="0" cy="0" r="3" fill="none" stroke="var(--text-primary)" strokeWidth="1.5" opacity="0.3" />
-              <line x1="0" y1="3" x2="0" y2="10" stroke="var(--text-primary)" strokeWidth="1.2" opacity="0.25" />
-              <line x1="-2.5" y1="5" x2="2.5" y2="5" stroke="var(--text-primary)" strokeWidth="1.2" opacity="0.25" />
-              <line x1="-1.5" y1="7.5" x2="1.5" y2="7.5" stroke="var(--text-primary)" strokeWidth="1.2" opacity="0.2" />
-              <line x1="-2" y1="12" x2="-0.5" y2="16" stroke="var(--text-primary)" strokeWidth="1.2" opacity="0.2" />
-              <line x1="2" y1="12" x2="0.5" y2="16" stroke="var(--text-primary)" strokeWidth="1.2" opacity="0.2" />
-            </g>
-          </svg>
+        <div className='shrink-0'>
+          <div
+            className='w-[120px] h-[120px] rounded-3xl flex items-center justify-center'
+            style={{ backgroundColor: 'var(--accent-soft)' }}
+          >
+            <span className='text-7xl leading-none' style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}>
+              {getWeatherEmoji(c.weather_code, c.is_day)}
+            </span>
+          </div>
         </div>
       </div>
     </div>
