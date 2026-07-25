@@ -65,16 +65,6 @@ const DailyForecast = memo(function DailyForecast({ data }) {
             <span className='text-[13px] w-12 text-right font-medium' style={{ color: 'var(--text-muted)' }}>
               {day.minT}°
             </span>
-            <div className='flex-1 mx-1 h-[4px] rounded-full' style={{ backgroundColor: 'var(--border)' }}>
-              <div
-                className='h-full rounded-full'
-                style={{
-                  width: '100%',
-                  background: day.maxT > 32 ? 'linear-gradient(to right, #60a5fa, #f97316)' : 'linear-gradient(to right, #60a5fa, #93c5fd)',
-                  opacity: 0.6,
-                }}
-              />
-            </div>
             <span className='text-[13px] w-12 shrink-0 font-semibold text-right' style={{ color: 'var(--text-primary)' }}>
               {day.maxT}°
             </span>
