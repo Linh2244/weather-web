@@ -24,7 +24,6 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 
 </div>
 
-> Thêm ảnh chụp màn hình vào thư mục `screenshots/` và cập nhật link bên trên.
 
 ---
 
