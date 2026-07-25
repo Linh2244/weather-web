@@ -38,25 +38,23 @@ export default function Layout({ children, onSearch, locationName }) {
           onClick={() => setMenuOpen(false)}
         >
           <div
-            className='w-full max-w-sm h-full'
-            style={{
-              background: 'var(--bg-secondary)',
-              backdropFilter: 'blur(24px) saturate(1.8)',
-              WebkitBackdropFilter: 'blur(24px) saturate(1.8)',
-            }}
+            className='fixed inset-0 bg-black/40 animate-fade-in'
+          />
+          <div
+            className='w-full max-w-sm h-full relative animate-slide-in-left'
             onClick={(e) => e.stopPropagation()}
           >
-            <div className='flex items-center justify-between px-4 py-3' style={{ borderBottom: '1px solid var(--border)' }}>
+            <div className='flex items-center justify-between px-5 py-4' style={{ borderBottom: '1px solid var(--border)' }}>
               <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>Tìm kiếm</span>
               <button
                 onClick={() => setMenuOpen(false)}
-                className='w-8 h-8 rounded-lg flex items-center justify-center'
+                className='w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-white/10 active:scale-90'
                 style={{ color: 'var(--text-muted)' }}
               >
                 <CloseIcon size={18} />
               </button>
             </div>
-            <div className='px-4 pt-4'>
+            <div className='px-5 pt-4'>
               <SearchBox onSelect={(loc) => { onSearch(loc); setMenuOpen(false); }} />
             </div>
           </div>

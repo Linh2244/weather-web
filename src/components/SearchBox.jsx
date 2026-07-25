@@ -4,7 +4,7 @@ import { searchLocation } from '../utils/api';
 import { findClosestLocation, searchLocations } from '../utils/vietnamCities';
 import { SearchIcon, LocationIcon } from './Icons';
 
-export default function SearchBox({ onSelect }) {
+export default function SearchBox({ onSelect, onClose }) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [open, setOpen] = useState(false);
@@ -13,6 +13,11 @@ export default function SearchBox({ onSelect }) {
   const [gpsError, setGpsError] = useState('');
   const debounced = useDebounce(query);
   const ref = useRef();
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (debounced.length < 2) { setResults([]); return; }
@@ -75,18 +80,19 @@ export default function SearchBox({ onSelect }) {
   };
 
   return (
-    <div className='relative' ref={ref}>
+    <div ref={ref}>
       <div className='relative'>
-        <span className='absolute left-3.5 top-1/2 -translate-y-1/2' style={{ color: 'var(--text-muted)' }}>
-          <SearchIcon size={15} />
+        <span className='absolute left-4 top-1/2 -translate-y-1/2' style={{ color: 'var(--text-muted)' }}>
+          <SearchIcon size={16} />
         </span>
         <input
+          ref={inputRef}
           type='text'
           value={query}
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => query.length >= 2 && results.length > 0 && setOpen(true)}
           placeholder='Tìm kiếm địa điểm...'
-          className='w-full pl-10 pr-10 py-2.5 rounded-2xl text-sm outline-none border-0 transition-all duration-200'
+          className='w-full pl-11 pr-12 py-3 rounded-2xl text-sm outline-none transition-all duration-200'
           style={{
             backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(12px)',
@@ -97,69 +103,64 @@ export default function SearchBox({ onSelect }) {
         <button
           onClick={handleGps}
           disabled={gpsLoading}
-          className='absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-xl flex items-center justify-center transition-all disabled:opacity-50'
+          className='absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center transition-all disabled:opacity-50 hover:scale-110 active:scale-90'
           style={{ color: gpsLoading ? 'var(--accent)' : 'var(--text-muted)' }}
           title='Vị trí hiện tại'
         >
-          {gpsLoading ? (
-            <span className='animate-spin'><LocationIcon size={15} /></span>
-          ) : (
-            <LocationIcon size={15} />
-          )}
+          <span className={gpsLoading ? 'animate-ping' : ''}>
+            <LocationIcon size={16} />
+          </span>
         </button>
       </div>
       {gpsError && (
         <div
-          className='absolute top-full mt-2 w-full rounded-xl z-50 p-3 text-center text-xs'
-          style={{
-            backgroundColor: 'var(--glass-bg)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid var(--glass-border)',
-            color: '#ef4444',
-          }}
+          className='mt-2 rounded-2xl z-50 p-3 text-center text-xs animate-fade-in'
         >
           {gpsError}
         </div>
       )}
       {open && results.length > 0 && (
         <div
-          className='absolute top-full mt-2 w-full rounded-xl z-50 overflow-hidden'
-          style={{
-            backgroundColor: 'var(--glass-bg)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid var(--glass-border)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-          }}
+          className='mt-2 rounded-2xl z-50 overflow-hidden animate-fade-in'
         >
-          {results.map((r) => (
+          {results.map((r, i) => (
             <button
               key={r.id}
               onClick={() => handleSelect(r)}
-              className='w-full px-4 py-3 text-left text-sm transition-colors flex items-center gap-2'
+              className='w-full px-4 py-3.5 text-left text-sm transition-all flex items-center gap-3 hover:pl-5 active:scale-[0.98] animate-slide-in-up'
               style={{
-                borderBottom: '1px solid var(--border)',
+                borderBottom: i < results.length - 1 ? '1px solid var(--border)' : 'none',
                 color: 'var(--text-primary)',
+                animationDelay: `${i * 50}ms`,
               }}
             >
-              <LocationIcon size={14} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
-              <span className='font-medium'>{r.name}</span>
-              {r.province && <span style={{ color: 'var(--text-muted)' }}> · {r.province}</span>}
+              <LocationIcon size={14} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+              <div className='flex-1 min-w-0'>
+                <span className='font-medium'>{r.name}</span>
+                {r.province && <span className='ml-1' style={{ color: 'var(--text-muted)' }}>{r.province}</span>}
+              </div>
             </button>
           ))}
         </div>
       )}
       {open && query.length >= 2 && results.length === 0 && !loading && (
         <div
-          className='absolute top-full mt-2 w-full rounded-xl z-50 p-4 text-center text-sm'
-          style={{
-            backgroundColor: 'var(--glass-bg)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid var(--glass-border)',
-            color: 'var(--text-muted)',
-          }}
+          className='mt-2 rounded-2xl z-50 p-6 text-center animate-fade-in'
         >
-          Không tìm thấy địa điểm
+          <SearchIcon size={28} style={{ color: 'var(--text-muted)', margin: '0 auto 8px', opacity: 0.5 }} />
+          <p className='text-sm' style={{ color: 'var(--text-muted)' }}>Không tìm thấy địa điểm</p>
+        </div>
+      )}
+      {loading && open && (
+        <div
+          className='mt-2 rounded-2xl z-50 p-4 space-y-3 animate-fade-in'
+        >
+          {[1, 2, 3].map((i) => (
+            <div key={i} className='flex items-center gap-3 px-2'>
+              <div className='w-5 h-5 rounded-full shimmer' />
+              <div className='h-3 w-3/4 rounded shimmer' />
+            </div>
+          ))}
         </div>
       )}
     </div>
