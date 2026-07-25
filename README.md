@@ -20,7 +20,7 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 
 <div align="center">
 
-![Screenshot](screenshots/screenshot.png)
+![Screenshot](/screenshots/screenshot.jpg)
 
 </div>
 
