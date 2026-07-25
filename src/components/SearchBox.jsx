@@ -83,13 +83,12 @@ export default function SearchBox({ onSelect }) {
           onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
           onFocus={() => query.length >= 2 && results.length > 0 && setOpen(true)}
           placeholder='Tìm kiếm địa điểm...'
-          className='w-full pl-10 pr-10 py-2.5 rounded-2xl text-sm outline-none transition-all duration-200'
+          className='w-full pl-10 pr-10 py-2.5 rounded-2xl text-sm outline-none border-0 transition-all duration-200'
           style={{
             backgroundColor: 'var(--glass-bg)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             color: 'var(--text-primary)',
-            border: '1px solid var(--glass-border)',
           }}
         />
         <button
