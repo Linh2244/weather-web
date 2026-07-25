@@ -77,6 +77,7 @@ npm run dev
 | `npm run build` | Production build → `dist/` |
 | `npm run preview` | Preview production build |
 | `npm run lint` | Oxlint code checking |
+| `npm run deploy` | Build + deploy to GitHub Pages |
 
 ---
 
@@ -135,11 +136,13 @@ Administrative data is based on [vietnamese-provinces-database v4.0.0](https://g
 
 ## Deployment / Triển khai
 
-This project is configured for automatic deployment to **GitHub Pages**:
+Deploy to **GitHub Pages**:
 
-1. Create a repo named `weather-web` on GitHub
-2. Push the code to `main` branch
-3. GitHub Actions will auto-deploy to `https://Linh2244.github.io/weather-web/`
+```bash
+npm run deploy
+```
+
+Or copy the `dist/` folder to your web server root (configured with `base: '/'`).
 
 ---
 
