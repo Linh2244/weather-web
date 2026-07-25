@@ -4,15 +4,10 @@ import { getMoonPhase } from '../utils/moonPhase';
 import { useInView } from '../hooks/useInView';
 import { SunriseIcon, SunsetIcon, ClockIcon } from './Icons';
 
-function moonEmoji(icon) {
-  const map = { 'new-moon': '🌑', 'waxing-crescent': '🌒', 'first-quarter': '🌓', 'waxing-gibbous': '🌔', 'full-moon': '🌕', 'waning-gibbous': '🌖', 'last-quarter': '🌗', 'waning-crescent': '🌘' };
-  return map[icon] || '🌑';
-}
-
-function SunArc({ sunrise, Sunset, inView }) {
+function SunArc({ sunrise, sunset, inView }) {
   const now = new Date();
   const sunriseTime = new Date(sunrise);
-  const sunsetTime = new Date(Sunset);
+  const sunsetTime = new Date(sunset);
   const dayLength = sunsetTime - sunriseTime;
   const elapsed = now - sunriseTime;
   const progress = Math.max(0, Math.min(1, elapsed / dayLength));
@@ -69,6 +64,15 @@ function SunArc({ sunrise, Sunset, inView }) {
   );
 }
 
+function moonEmoji(icon) {
+  const map = {
+    'new-moon': '🌑', 'waxing-crescent': '🌒', 'first-quarter': '🌓',
+    'waxing-gibbous': '🌔', 'full-moon': '🌕', 'waning-gibbous': '🌖',
+    'last-quarter': '🌗', 'waning-crescent': '🌘',
+  };
+  return map[icon] || '🌑';
+}
+
 const SunMoon = memo(function SunMoon({ daily }) {
   const [ref, inView] = useInView();
   if (!daily) return null;
@@ -77,31 +81,35 @@ const SunMoon = memo(function SunMoon({ daily }) {
   const daylightM = Math.round((daily.daylight_duration[0] % 3600) / 60);
 
   return (
-    <div ref={ref} className={`glass-card reveal ${inView ? 'visible' : ''}`}>
-      <h3 className='text-[13px] font-semibold mb-3 tracking-wide' style={{ color: 'var(--text-muted)' }}>
-        MẶT TRỜI & MẶT TRĂNG
-      </h3>
-
-      <SunArc sunrise={daily.sunrise[0]} Sunset={daily.sunset[0]} inView={inView} />
+    <div ref={ref} className='glass-card'>
+      <SunArc sunrise={daily.sunrise[0]} sunset={daily.sunset[0]} inView={inView} />
 
       <div className='flex items-center justify-between mt-2'>
         <div className='flex items-center gap-2'>
           <SunriseIcon size={16} style={{ color: '#f97316' }} />
-          <span className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(daily.sunrise[0])}</span>
+          <div>
+            <p className='text-[10px]' style={{ color: 'var(--text-muted)' }}>Bình minh</p>
+            <p className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(daily.sunrise[0])}</p>
+          </div>
         </div>
         <div className='flex items-center gap-1.5'>
           <ClockIcon size={13} style={{ color: 'var(--text-muted)' }} />
           <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>{daylightH}h {daylightM}m</span>
         </div>
         <div className='flex items-center gap-2'>
-          <span className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(daily.sunset[0])}</span>
+          <div className='text-right'>
+            <p className='text-[10px]' style={{ color: 'var(--text-muted)' }}>Hoàng hôn</p>
+            <p className='text-xs font-medium' style={{ color: 'var(--text-primary)' }}>{formatTime(daily.sunset[0])}</p>
+          </div>
           <SunsetIcon size={16} style={{ color: '#6366f1' }} />
         </div>
       </div>
 
-      <div className='flex items-center justify-center gap-2 mt-3 pt-3' style={{ borderTop: '1px solid var(--border)' }}>
-        <span className='text-2xl animate-scale-in' style={{ animationDelay: '0.5s' }}>{moonEmoji(moon.icon)}</span>
-        <span className='text-sm' style={{ color: 'var(--text-secondary)' }}>{moon.name}</span>
+      <div className='flex items-center justify-between mt-3 pt-3' style={{ borderTop: '1px solid var(--border)' }}>
+        <div className='flex items-center gap-2'>
+          <span className='text-2xl'>{moonEmoji(moon.icon)}</span>
+          <span className='text-sm font-medium' style={{ color: 'var(--text-secondary)' }}>{moon.name}</span>
+        </div>
       </div>
     </div>
   );

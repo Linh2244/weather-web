@@ -4,9 +4,11 @@ import Layout from './components/Layout';
 import CurrentWeather from './components/CurrentWeather';
 import HourlyForecast from './components/HourlyForecast';
 import DailyForecast from './components/DailyForecast';
-import SunMoon from './components/SunMoon';
-import UvIndex from './components/UvIndex';
+import RainfallChart from './components/RainfallChart';
+import WeatherAlertCarousel from './components/WeatherAlertCarousel';
 import AirQuality from './components/AirQuality';
+import DetailsGrid from './components/DetailsGrid';
+import SunMoon from './components/SunMoon';
 import Loading from './components/Loading';
 import WeatherBackground from './components/WeatherBackground';
 import { useGeolocation } from './hooks/useGeolocation';
@@ -44,7 +46,7 @@ function WeatherApp() {
   return (
     <>
       <WeatherBackground weatherCode={weatherCode} isDay={isDay} sunrise={sunrise} sunset={sunset} />
-      <Layout onSearch={handleSearch}>
+      <Layout onSearch={handleSearch} locationName={locationName}>
         {loading && <Loading locationName={locationName} />}
         {error && (
           <div key={errorKey} className='glass-card text-center animate-shake py-10'>
@@ -59,11 +61,11 @@ function WeatherApp() {
           <>
             <CurrentWeather data={weather} locationName={locationName} />
             <HourlyForecast data={weather} />
+            <RainfallChart data={weather} />
+            <WeatherAlertCarousel weatherCode={weatherCode} />
             <DailyForecast data={weather} />
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-              <UvIndex data={weather} />
-              <AirQuality data={airQuality} />
-            </div>
+            <AirQuality data={airQuality} />
+            <DetailsGrid data={weather} />
             <SunMoon daily={weather.daily} />
           </>
         )}
