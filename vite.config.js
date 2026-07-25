@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.png'],
       manifest: {
         name: 'Thời Tiết - Weather Web',
         short_name: 'Thời Tiết',
@@ -19,7 +19,7 @@ export default defineConfig({
         start_url: '/',
         scope: '/',
         icons: [
-          { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }
+          { src: 'favicon.png', sizes: '1024x1024', type: 'image/png' },
         ],
       },
     }),
