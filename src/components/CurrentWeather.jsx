@@ -41,7 +41,7 @@ export default function CurrentWeather({ data, locationName }) {
   const visKm = c.visibility != null ? (c.visibility / 1000).toFixed(0) : null;
 
   const details = [
-    { icon: <ThermometerIcon size={18} />, label: 'Cảm giác', value: Math.round(c.apparent_temperature) + '°' },
+    { icon: <ThermometerIcon size={18} />, label: 'Cảm giác như', value: Math.round(c.apparent_temperature) + '°' },
     { icon: <DropletIcon size={18} />, label: 'Độ ẩm', value: c.relative_humidity_2m + '%' },
     { icon: <WindDirIcon deg={c.wind_direction_10m} size={16} />, label: 'Gió', value: c.wind_speed_10m + ' km/h ' + getWindDirection(c.wind_direction_10m) },
     { icon: <RainIcon size={18} />, label: 'Lượng mưa', value: (c.precipitation || 0) + ' mm' },
