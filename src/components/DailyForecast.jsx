@@ -56,12 +56,9 @@ const DailyForecast = memo(function DailyForecast({ data }) {
             <span className='text-[13px] w-[60px] shrink-0 font-medium' style={{ color: day.isYesterday ? 'var(--text-muted)' : 'var(--text-primary)' }}>
               {formatDayFull(day.time)}
             </span>
-            {day.precip > 0 && (
-              <span className='text-[11px] flex items-center gap-0.5 w-[50px] shrink-0' style={{ color: 'var(--accent)' }}>
-                <DropletIcon size={10} />{Math.round(day.precip)}%
-              </span>
-            )}
-            {!day.precip && <span className='w-[50px]' />}
+            <span className='text-[11px] flex items-center gap-0.5 w-[50px] shrink-0' style={{ color: 'var(--accent)' }}>
+              <DropletIcon size={10} />{Math.round(day.precip)}%
+            </span>
             <div className='flex items-center gap-1' style={{ transform: 'scale(0.65)', transformOrigin: 'left center' }}>
               <WeatherIcon code={day.code} size={26} />
             </div>
