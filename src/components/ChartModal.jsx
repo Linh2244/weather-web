@@ -18,18 +18,19 @@ const CHART_CONFIG = {
 
 function formatHour(timeStr) {
   const d = new Date(timeStr);
-  const h = d.getHours().toString().padStart(2, '0');
-  return h + 'h';
+  const h = d.getHours();
+  const label = h < 12 ? 'sáng' : h < 18 ? 'chiều' : 'tối';
+  return h.toString().padStart(2, '0') + 'h ' + label;
 }
 
-function CustomTooltip({ active, payload, label }) {
+function CustomTooltip({ active, payload, label, unit }) {
   if (!active || !payload?.length) return null;
   return (
     <div className='chart-tooltip'>
       <p className='chart-tooltip-time'>{label}</p>
       {payload.map((p, i) => (
         <p key={i} className='chart-tooltip-value' style={{ color: p.color }}>
-          {p.value} {p.name}
+          {p.value} {unit}
         </p>
       ))}
     </div>
@@ -114,7 +115,7 @@ export default function ChartModal({ open, field, hourly, onClose }) {
               <CartesianGrid strokeDasharray='3 3' stroke='var(--border)' />
               <XAxis dataKey='time' tick={{ fontSize: 10, fill: 'var(--text-muted)' }} interval={3} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} width={36} />
-              <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--text-muted)', strokeDasharray: '3 3' }} />
+              <Tooltip content={<CustomTooltip unit={config.unit} />} cursor={{ stroke: 'var(--text-muted)', strokeDasharray: '3 3' }} />
               <DataComponent type='monotone' dataKey='value' stroke={config.color} fill={config.color} fillOpacity={0.15} strokeWidth={2} dot={false} activeDot={{ r: 4, strokeWidth: 0 }} radius={[4, 4, 0, 0]} />
             </ChartComponent>
           </ResponsiveContainer>
