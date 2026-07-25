@@ -25,11 +25,14 @@ export default function SearchBox({ onSelect }) {
       type: loc.type,
       province: loc.province || null,
     }));
-    searchLocation(debounced).then((r) => {
-      const api = r.map((x) => ({ id: 'api-' + x.id, name: x.name, lat: x.latitude, lon: x.longitude, type: 'api', province: x.admin1 || null }));
-      setResults([...local, ...api]);
-      setLoading(false);
-    });
+    setResults(local);
+    searchLocation(debounced)
+      .then((r) => {
+        const api = r.map((x) => ({ id: 'api-' + x.id, name: x.name, lat: x.latitude, lon: x.longitude, type: 'api', province: x.admin1 || null }));
+        setResults([...local, ...api]);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [debounced]);
 
   useEffect(() => {
