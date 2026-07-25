@@ -167,22 +167,35 @@ body {
   to { transform: translateX(20%); }
 }
 
-/* === SUN RAY === */
-.sun-ray {
+/* === SUN (BG) === */
+.sun {
   position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 250px;
-  height: 250px;
-  background: linear-gradient(135deg, rgba(255,220,100,0.06) 0%, transparent 50%);
-  border-radius: 50%;
-  will-change: transform;
-  animation: sunSpin 25s linear infinite;
+  top: 4%;
+  transform: translateX(-50%);
   pointer-events: none;
+  z-index: 1;
 }
-@keyframes sunSpin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.sun-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(255,200,50,0.2) 0%, rgba(255,200,50,0.08) 40%, transparent 70%);
+  animation: sunGlow 3s ease-in-out infinite;
+}
+.sun-body {
+  width: 100px;
+  height: 100px;
+  display: block;
+  animation: sunPulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(255,200,50,0.3));
+}
+@keyframes sunGlow {
+  0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
 }
 
 /* === THUNDER === */
@@ -444,7 +457,7 @@ body {
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .stagger-children > .stagger-item { opacity: 1 !important; transform: none !important; transition: none !important; }
   .rain-drop, .snow-flake, .star, .shooting-star,
-  .fog-layer, .sun-ray, .thunder-flash,
-  .cloud { animation: none !important; }
+  .fog-layer, .thunder-flash,
+  .cloud, .sun, .sun-glow, .sun-body { animation: none !important; }
   * { transition-duration: 0.01ms !important; }
 }

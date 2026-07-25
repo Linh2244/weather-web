@@ -65,6 +65,23 @@ function BgCloud({ shapeIndex, className, style }) {
   );
 }
 
+function BgSun({ side }) {
+  const left = side === 'left' ? 5 : side === 'right' ? 60 : 30;
+  return (
+    <div className='sun' style={{ left: left + '%' }}>
+      <div className='sun-glow' />
+      <svg viewBox="0 0 100 100" fill="none" className='sun-body'>
+        <circle cx="50" cy="50" r="22" fill="#FFD93D" />
+        {Array.from({ length: 12 }, (_, i) => (
+          <line key={i} x1="50" y1={12} x2="50" y2="24"
+            stroke="#FFD93D" strokeWidth="3" strokeLinecap="round"
+            transform={`rotate(${30 * i}, 50, 50)`} opacity="0.6" />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 function FogLayer({ index }) {
   const top = useMemo(() => 20 + index * 15, [index]);
   const duration = useMemo(() => 8 + index * 3, [index]);
@@ -72,14 +89,6 @@ function FogLayer({ index }) {
   return (
     <div className='fog-layer' style={{
       top: top + '%', animationDuration: duration + 's', animationDelay: (index * 2) + 's',
-    }} />
-  );
-}
-
-function SunRay({ index }) {
-  return (
-    <div className='sun-ray' style={{
-      transform: `rotate(${index * 45}deg)`, animationDelay: (index * -2.5) + 's',
     }} />
   );
 }
@@ -163,7 +172,6 @@ export default function WeatherBackground({ weatherCode, isDay }) {
   const isOvercast = weatherType === 'overcast';
   const showStars = !isDay && (isClear || isCloudy);
   const showClouds = !isClear && !isFog;
-  const showSunRays = isDay && isClear;
 
   const bgKey = isDay ? weatherType : weatherType + 'Dark';
   const bg = WEATHER_BG[bgKey] || (isDay ? WEATHER_BG.clear : WEATHER_BG.clearDark);
@@ -239,9 +247,7 @@ export default function WeatherBackground({ weatherCode, isDay }) {
     <div className='weather-bg fixed inset-0 pointer-events-none overflow-hidden' style={{ zIndex: 0 }}>
       <div className='absolute inset-0 transition-opacity duration-700' style={{ background: bg }} />
       <div className='horizon-glow' style={{ background: horizon }} />
-      {showSunRays && Array.from({ length: 4 }, (_, i) => (
-        <SunRay key={i} index={i} />
-      ))}
+      {isDay && isClear && <BgSun side="right" />}
       {clouds}
       {stars}
       {shootingStars}
