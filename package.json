@@ -14,7 +14,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "vite build --base=/weather-web/ && gh-pages -d dist"
   },
   "dependencies": {
     "react": "^19.2.7",
