@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { getWindDirection, getWeatherDescription } from '../utils/formatters';
 import { useInView } from '../hooks/useInView';
 import { ThermometerIcon, DropletIcon, WindDirIcon, RainIcon, EyeIcon, GaugeIcon, SnowflakeIcon, UVIcon } from './Icons';
+import ChartModal from './ChartModal';
 
 function AnimatedTemp({ value }) {
   const [display, setDisplay] = useState(value);
@@ -29,25 +30,27 @@ function AnimatedTemp({ value }) {
 }
 
 export default function CurrentWeather({ data, locationName }) {
+  const [chartField, setChartField] = useState(null);
   const [gridRef, gridInView] = useInView();
   if (!data) return null;
   const c = data.current;
   if (!c) return null;
   const d = data.daily;
+  const hourly = data.hourly;
   const desc = getWeatherDescription(c.weather_code);
   const maxT = d?.temperature_2m_max?.[0];
   const minT = d?.temperature_2m_min?.[0];
   const visKm = c.visibility != null ? (c.visibility / 1000).toFixed(0) : null;
 
   const details = [
-    { icon: <ThermometerIcon size={18} />, label: 'Cảm giác như', value: Math.round(c.apparent_temperature) + '°' },
-    { icon: <DropletIcon size={18} />, label: 'Độ ẩm', value: c.relative_humidity_2m + '%' },
-    { icon: <WindDirIcon deg={c.wind_direction_10m} size={16} />, label: 'Gió', value: c.wind_speed_10m + ' km/h ' + getWindDirection(c.wind_direction_10m) },
-    { icon: <RainIcon size={18} />, label: 'Lượng mưa', value: (c.precipitation || 0) + ' mm' },
-    { icon: <EyeIcon size={18} />, label: 'Tầm nhìn', value: visKm != null ? visKm + ' km' : '--' },
-    { icon: <GaugeIcon size={18} />, label: 'Áp suất', value: c.surface_pressure ? Math.round(c.surface_pressure) + ' hPa' : '--' },
-    { icon: <SnowflakeIcon size={18} />, label: 'Điểm sương', value: c.dew_point_2m != null ? Math.round(c.dew_point_2m) + '°' : '--' },
-    { icon: <UVIcon size={18} />, label: 'UV', value: c.uv_index != null ? c.uv_index.toFixed(1) : '--' },
+    { field: 'apparent_temperature', icon: <ThermometerIcon size={18} />, label: 'Cảm giác như', value: Math.round(c.apparent_temperature) + '°' },
+    { field: 'relative_humidity_2m', icon: <DropletIcon size={18} />, label: 'Độ ẩm', value: c.relative_humidity_2m + '%' },
+    { field: 'wind_speed_10m', icon: <WindDirIcon deg={c.wind_direction_10m} size={16} />, label: 'Gió', value: c.wind_speed_10m + ' km/h ' + getWindDirection(c.wind_direction_10m) },
+    { field: 'precipitation', icon: <RainIcon size={18} />, label: 'Lượng mưa', value: (c.precipitation || 0) + ' mm' },
+    { field: 'visibility', icon: <EyeIcon size={18} />, label: 'Tầm nhìn', value: visKm != null ? visKm + ' km' : '--' },
+    { field: 'surface_pressure', icon: <GaugeIcon size={18} />, label: 'Áp suất', value: c.surface_pressure ? Math.round(c.surface_pressure) + ' hPa' : '--' },
+    { field: 'dew_point_2m', icon: <SnowflakeIcon size={18} />, label: 'Điểm sương', value: c.dew_point_2m != null ? Math.round(c.dew_point_2m) + '°' : '--' },
+    { field: 'uv_index', icon: <UVIcon size={18} />, label: 'UV', value: c.uv_index != null ? c.uv_index.toFixed(1) : '--' },
   ];
 
   return (
@@ -77,13 +80,14 @@ export default function CurrentWeather({ data, locationName }) {
 
       <div ref={gridRef} className={`glass-card mt-4 grid grid-cols-2 gap-x-4 gap-y-3 stagger-children ${gridInView ? 'visible' : ''}`}>
         {details.map((item) => (
-          <div key={item.label} className='stagger-item flex flex-col items-center gap-0.5 py-1'>
+          <div key={item.label} className='stagger-item flex flex-col items-center gap-0.5 py-1 chart-card' onClick={() => setChartField(item.field)}>
             <span style={{ color: 'var(--text-muted)' }}>{item.icon}</span>
             <p className='text-[11px] leading-tight' style={{ color: 'var(--text-muted)' }}>{item.label}</p>
             <p className='text-base font-semibold' style={{ color: 'var(--text-primary)' }}>{item.value}</p>
           </div>
         ))}
       </div>
+      <ChartModal open={chartField != null} field={chartField} hourly={hourly} onClose={() => setChartField(null)} />
     </div>
   );
 }
