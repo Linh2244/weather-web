@@ -10,7 +10,7 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss)
 ![PWA](https://img.shields.io/badge/PWA-✓-5A0FC8)
-![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-✓-222222?logo=githubpages)
+[![Website](https://img.shields.io/badge/Website-linh.qzz.io-0ea5e9?logo=googlechrome)](https://linh.qzz.io)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
@@ -77,7 +77,7 @@ npm run dev
 | `npm run build` | Production build → `dist/` |
 | `npm run preview` | Preview production build |
 | `npm run lint` | Oxlint code checking |
-| `npm run deploy` | Build + deploy to GitHub Pages |
+| `npm run deploy` | Build + deploy to `linh.qzz.io` |
 
 ---
 
@@ -136,13 +136,13 @@ Administrative data is based on [vietnamese-provinces-database v4.0.0](https://g
 
 ## Deployment / Triển khai
 
-Deploy to **GitHub Pages**:
+Site is live at **[linh.qzz.io](https://linh.qzz.io)**.
 
 ```bash
-npm run deploy
+npm run deploy     # Build + deploy via gh-pages
 ```
 
-Or copy the `dist/` folder to your web server root (configured with `base: '/'`).
+Or copy `dist/` to your web server root (configured with `base: '/'`).
 
 ---
 
