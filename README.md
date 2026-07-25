@@ -90,6 +90,65 @@ npm run dev
 
 ---
 
+## Quyền riêng tư / Privacy
+
+Weather Web được thiết kế với triết lý **tối giản dữ liệu (data minimisation)** và **ưu tiên quyền riêng tư** ngay từ đầu. Dưới đây là tất cả những gì bạn cần biết:
+
+### 🚫 Không thu thập dữ liệu
+
+Weather Web **không thu thập, không ghi nhận**, và **không gửi** bất kỳ dữ liệu cá nhân nào về bất kỳ máy chủ nào. Trang web này:
+
+- **Không có** quảng cáo, không nhúng tracker, không phân tích hành vi (analytics).
+- **Không sử dụng** cookies, fingerprint, hoặc bất kỳ công nghệ theo dõi nào.
+- **Không yêu cầu** tài khoản, đăng ký, hoặc email — bạn không cần cung cấp bất kỳ thông tin cá nhân nào để sử dụng ứng dụng.
+
+### 📡 Các kết nối mạng duy nhất
+
+Tất cả các kết nối từ trình duyệt của bạn đến Internet đều nhằm mục đích **lấy dữ liệu thời tiết** và **chỉ giới hạn ở các API sau**:
+
+| API | Mục đích | Dữ liệu gửi lên |
+|-----|----------|-----------------|
+| `api.open-meteo.com/v1/forecast` | Dự báo thời tiết | Tọa độ (kinh độ, vĩ độ) |
+| `air-quality-api.open-meteo.com/v1/air-quality` | Chất lượng không khí | Tọa độ (kinh độ, vĩ độ) |
+| `geocoding-api.open-meteo.com/v1/search` | Tìm kiếm địa điểm (fallback) | Chuỗi tìm kiếm bạn gõ vào |
+
+> **Lưu ý:** Open-Meteo là dịch vụ mã nguồn mở, miễn phí, không yêu cầu API key và **không ghi nhật ký** các request. Bạn có thể xem chính sách bảo mật của họ tại [open-meteo.com/en/terms](https://open-meteo.com/en/terms).
+
+### 💻 Dữ liệu lưu trên máy bạn (localStorage)
+
+Tất cả dữ liệu cá nhân đều được lưu trữ **cục bộ hoàn toàn** trong `localStorage` — một vùng lưu trữ trên chính trình duyệt của bạn, **không bao giờ** được đồng bộ hóa, gửi đi, hoặc chia sẻ dưới bất kỳ hình thức nào.
+
+| Key | Kiểu | Dung lượng | Nội dung |
+|-----|------|-----------|----------|
+| `theme` | `string` | ~10 bytes | Tùy chọn giao diện (`'dark'` hoặc `'light'`) |
+| `weather_search_history` | `Array` | ~2 KB tối đa | Tối đa **8 địa điểm** gần đây bạn đã tìm kiếm (mỗi địa điểm gồm tên, vĩ độ, kinh độ) |
+
+**Bạn có thể dễ dàng xóa dữ liệu này bất kỳ lúc nào:**
+- **Trực tiếp trong ứng dụng:** Nhấn nút **"Xóa lịch sử"** trong bảng tìm kiếm (xóa `weather_search_history`).
+- **Thủ công:** Vào DevTools → Application → Local Storage → xóa các key trên.
+- **Toàn bộ:** Xóa `localStorage` của trang web bằng trình duyệt.
+
+### 📍 GPS / Vị trí địa lý
+
+Khi bạn nhấn nút GPS (icon định vị), trình duyệt sẽ yêu cầu quyền truy cập vị trí của bạn.
+
+- Việc này **chỉ xảy ra khi bạn chủ động nhấn nút** — không có gì tự động nền.
+- Dữ liệu tọa độ **chỉ được dùng để** tìm địa điểm gần nhất và lấy thời tiết.
+- Tọa độ của bạn **không bao giờ được lưu lại** ngoại trừ khi bạn lưu nó vào lịch sử tìm kiếm (localStorage).
+- Bạn có thể thu hồi quyền truy cập vị trí bất cứ lúc nào qua cài đặt trình duyệt.
+
+### 🔒 Tóm lại
+
+| Câu hỏi | Trả lời |
+|---------|---------|
+| Ứng dụng có thu thập dữ liệu không? | ❌ Không |
+| Có quảng cáo không? | ❌ Không |
+| Có gửi dữ liệu ra ngoài không? | ❌ Chỉ gửi tọa độ đến Open-Meteo để lấy thời tiết |
+| Có cookies / tracker không? | ❌ Không |
+| Dữ liệu của tôi có an toàn không? | ✅ Có — tất cả đều nằm trên máy bạn |
+
+---
+
 ## Cấu trúc dự án / Project Structure
 
 ```
