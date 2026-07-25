@@ -2,15 +2,14 @@
 
 # Thời Tiết — Weather Web
 
-**Trang web thời tiết cho Việt Nam** với giao diện Apple-inspired, dark/light mode, và GPS tự động.
+**Trang web thời tiết cho Việt Nam** với giao diện Apple-inspired, dark/light mode, GPS tự động, animation mượt mà.
 
-A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/light mode, and auto GPS detection.
+A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/light mode, GPS detection, and smooth animations.
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss)
 ![PWA](https://img.shields.io/badge/PWA-✓-5A0FC8)
-[![Website](https://img.shields.io/badge/Website-linh.qzz.io-0ea5e9?logo=googlechrome)](https://linh.qzz.io)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
@@ -21,28 +20,30 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 
 <div align="center">
 
-![Light Mode](screenshots/light.png)
-![Dark Mode](screenshots/dark.png)
+![Screenshot](screenshots/screenshot.png)
 
 </div>
 
-> Add your screenshots to the `screenshots/` folder and update the links above.
+> Thêm ảnh chụp màn hình vào thư mục `screenshots/` và cập nhật link bên trên.
 
 ---
 
 ## Tính năng / Features
 
-- **3.355 địa điểm** — 34 tỉnh/thành phố + 3.321 xã/phường từ database chính thức
-- **Tìm kiếm** — theo tên tỉnh, xã, phường (tiếng Việt, có dấu)
+- **Thời tiết realtime** — nhiệt độ, độ ẩm, gió, tầm nhìn, áp suất, điểm sương
+- **Dự báo theo giờ** — 24h với biểu đồ nhiệt độ dạng đường + phần trăm mưa
+- **Dự báo 7 ngày** — min/max, thanh nhiệt độ, xác suất mưa
+- **Chỉ số UV** — gauge với thang màu, khuyến nghị bảo vệ da
+- **Chất lượng không khí** — AQI + chi tiết PM2.5, PM10, O₃, NO₂, SO₂
+- **Mặt trời & mặt trăng** — biểu đồ vòm mặt trời realtime, phase mặt trăng
+- **Cảnh báo thời tiết** — carousel 4 trang: tip quan trọng nhất → độ ẩm → cảm giác ngày mai → gió
+- **Tìm kiếm địa điểm** — tìm theo tỉnh/xã/phường tiếng Việt, lưu lịch sử vào localStorage
 - **GPS tự động** — xác định vị trí hiện tại, fallback về Hà Nội
-- **Dự báo thời tiết** — theo giờ (24h) và 7 ngày
-- **Chỉ số UV & AQI** — chất lượng không khí realtime
-- **Mặt trời & mặt trăng** — giờ mọc/lặn, phase mặt trăng
 - **Dark/Light mode** — tự động theo hệ thống, lưu localStorage
-- **Glassmorphism UI** — Apple Weather-inspired, backdrop-blur, animated transitions
-- **SVG icons** — 20+ biểu tượng thời tiết tùy chỉnh
 - **PWA** — cài đặt như app trên mobile/desktop
-- **Reduced motion** — hỗ trợ `prefers-reduced-motion`
+- **Service Worker** — tự động cập nhật, cache offline
+- **Animations** — spring easing, stagger, shimmer, fade-in, slide-in, reduced-motion hỗ trợ
+- **Glassmorphism UI** — Apple Weather-inspired, backdrop-blur, animated transitions
 
 ---
 
@@ -54,9 +55,10 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 | Build | Vite 8 |
 | Styling | Tailwind CSS 3 |
 | APIs | [Open-Meteo](https://open-meteo.com) (miễn phí, không cần key) |
-| Icons | Custom SVG |
-| PWA | vite-plugin-pwa |
+| Icons | Custom SVG (20+ icons) |
+| PWA | vite-plugin-pwa (autoUpdate + skipWaiting) |
 | Linting | Oxlint |
+| Chunk | ~617 KB JS, ~25 KB CSS (gzipped ~102 KB / ~6 KB) |
 
 ---
 
@@ -77,7 +79,16 @@ npm run dev
 | `npm run build` | Production build → `dist/` |
 | `npm run preview` | Preview production build |
 | `npm run lint` | Oxlint code checking |
-| `npm run deploy` | Build + deploy to `linh.qzz.io` |
+
+---
+
+## API Endpoints (Miễn phí, không cần API key)
+
+| Endpoint | Usage |
+|----------|-------|
+| `api.open-meteo.com/v1/forecast` | Weather + hourly + daily forecast |
+| `air-quality-api.open-meteo.com/v1/air-quality` | AQI + PM2.5, PM10, O₃, NO₂, SO₂ |
+| `geocoding-api.open-meteo.com/v1/search` | Location search (fallback) |
 
 ---
 
@@ -85,64 +96,65 @@ npm run dev
 
 ```
 src/
-├── App.jsx                  # Main app + ThemeProvider + Layout
-├── main.jsx                 # Entry point
-├── index.css                # Tailwind + CSS variables (dark/light)
-├── constants.js             # API URLs, WMO codes, AQI/UV levels
+├── App.jsx                   # Main app + ThemeProvider + Layout
+├── main.jsx                  # Entry point
+├── index.css                 # Tailwind + CSS variables (dark/light) + keyframes
+├── constants.js              # API URLs
 ├── components/
-│   ├── AirQuality.jsx       # AQI + pollutant breakdown
-│   ├── DailyForecast.jsx    # 7-day forecast với temp bars
-│   ├── HourlyForecast.jsx   # 24h scrollable forecast
-│   ├── Icons.jsx            # Search, Location, Sun, Moon SVG icons
-│   ├── Layout.jsx           # Fixed glassmorphism header + search
-│   ├── Loading.jsx          # Pulse skeleton loading
-│   ├── SearchBox.jsx        # Local search + Open-Meteo fallback
-│   ├── SunMoon.jsx          # SVG sun arc + moon phase
-│   ├── ThemeProvider.jsx    # Dark/light context + localStorage
-│   ├── UvIndex.jsx          # UV gauge + color scale
-│   ├── WeatherBackground.jsx# Dynamic gradient + particles
-│   ├── WeatherIcon.jsx      # 20 animated SVG weather icons
-│   └── CurrentWeather.jsx   # Hero temperature + quick stats
+│   ├── AirQuality.jsx        # AQI + pollutant breakdown grid
+│   ├── CurrentWeather.jsx    # Hero temperature + emoji + animated count
+│   ├── DailyForecast.jsx     # 7-day forecast with temp bars
+│   ├── DetailsGrid.jsx       # 2×3 grid: UV, Humidity, Wind, etc.
+│   ├── HourlyForecast.jsx    # 24h scrollable + SVG line chart
+│   ├── Icons.jsx             # All SVG icon components
+│   ├── Layout.jsx            # Header + search slide-in panel
+│   ├── Loading.jsx           # Pulse skeleton loading
+│   ├── RainfallChart.jsx     # Hourly precipitation bars
+│   ├── SearchBox.jsx         # Search + history + GPS
+│   ├── SunMoon.jsx           # Sun arc + moon arc + moon phase
+│   ├── ThemeProvider.jsx     # Dark/light context + localStorage
+│   ├── UvIndex.jsx           # UV gauge + color scale
+│   ├── WeatherAlertCarousel.jsx # 4-page tips carousel
+│   ├── WeatherBackground.jsx # Dynamic gradient + particles
+│   └── WeatherIcon.jsx       # Animated SVG weather icons
 ├── hooks/
-│   ├── useDebounce.js       # Input debounce
-│   ├── useGeolocation.js    # GPS auto-detect
-│   ├── useInView.js         # IntersectionObserver scroll animation
-│   └── useWeather.js        # Weather + AQI data fetching
+│   ├── useDebounce.js        # Input debounce
+│   ├── useGeolocation.js     # GPS auto-detect
+│   ├── useInView.js          # IntersectionObserver scroll animation
+│   ├── useSearchHistory.js   # localStorage search history
+│   └── useWeatherData.js     # Weather + AQI data fetching
 └── utils/
-    ├── api.js               # fetchWeather, fetchAirQuality, searchLocation
-    ├── formatters.js        # formatTemp, formatTime, formatDay, getWindDirection
-    ├── locations.js         # 3.355 địa điểm Việt Nam
-    ├── moonPhase.js         # Moon phase from Julian day
-    └── vietnamCities.js     # VIETNAM_CITIES + findClosestLocation
+    ├── api.js                # fetchWeather, fetchAirQuality, searchLocation
+    ├── formatters.js         # formatTemp, formatTime, getWindDirection, etc.
+    ├── moonPhase.js          # Moon phase from Julian day
+    └── vietnamCities.js      # VIETNAM_CITIES + findClosestLocation
 ```
 
 ---
 
-## API (Miễn phí, không cần API key)
+## Tính năng nổi bật / Highlights
 
-| Endpoint | Usage |
-|----------|-------|
-| `api.open-meteo.com/v1/forecast` | Weather + hourly + daily forecast |
-| `air-quality-api.open-meteo.com/v1/air-quality` | AQI + PM2.5, PM10, NO₂ |
-| `geocoding-api.open-meteo.com/v1/search` | Location search (fallback) |
+### Weather Alert Carousel
+4 trang lời khuyên thời tiết thông minh, tự động chọn tip theo điều kiện hiện tại (dông > mưa > gió > UV > AQI > nhiệt độ). Vuốt trái/phải để chuyển trang.
 
----
+### Search History
+Lưu 8 địa điểm gần đây vào localStorage, hiển thị khi focus input, có nút "Xóa lịch sử".
 
-## Dữ liệu hành chính / Administrative Data
+### Sun/Moon Arc
+SVG vòm mặt trời di chuyển realtime theo giờ trong ngày. Ban đêm tự động chuyển sang mặt trăng.
 
-Administrative data is based on [vietnamese-provinces-database v4.0.0](https://github.com/webuild-community/vietnamese-provinces-database) (updated per Decree 30/2026/QH16) and includes **34 provinces/cities** and **3,321 communes/wards**.
+### Animations
+Spring easing, stagger items, fade-in, slide-in, shimmer loading, animated nhiệt độ đếm. Hỗ trợ `prefers-reduced-motion`.
 
 ---
 
 ## Deployment / Triển khai
 
-Site is live at **[linh.qzz.io](https://linh.qzz.io)**.
-
 ```bash
-npm run deploy     # Build + deploy via gh-pages
+npm run build     # Build ra dist/
 ```
 
-Or copy `dist/` to your web server root (configured with `base: '/'`).
+Copy thư mục `dist/` vào web server (cấu hình với `base: '/'`).
 
 ---
 
