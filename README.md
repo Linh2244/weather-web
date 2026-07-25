@@ -32,11 +32,11 @@ A **weather website for Vietnam** with GPS detection, and smooth animations.
 - **Thời tiết hiện tại** — nhiệt độ, cảm giác như, cao/thấp trong ngày, mô tả thời tiết, emoji
 - **Dự báo theo giờ** — 24h scrollable, nhiệt độ, xác suất mưa, biểu đồ sparkline, chỉ báo hoàng hôn
 - **Lượng mưa theo giờ** — biểu đồ cột 12h, animation khi cuộn vào
-- **Dự báo 7 ngày** — min/max, thanh nhiệt độ màu, tổng lượng mưa, icon thời tiết
+- **Dự báo 7 ngày** — min/max, thanh nhiệt độ trực quan, tổng lượng mưa, icon thời tiết
 - **Chi tiết thời tiết** — grid 3×2: UV, độ ẩm, gió, điểm sương, áp suất, tầm nhìn
 - **Chất lượng không khí** — AQI + thanh màu + chi tiết PM2.5, PM10, O₃, NO₂, SO₂
 - **Mặt trời & mặt trăng** — biểu đồ vòm mặt trời realtime, giờ mặt trời mọc/lặn, phase mặt trăng
-- **Cảnh báo thời tiết** — carousel vuốt: tip ưu tiên → độ ẩm → cảm giác ngày mai → gió
+- **Cảnh báo thời tiết** — carousel vuốt: khuyến nghị ưu tiên → độ ẩm → cảm giác ngày mai → gió
 - **Tìm kiếm địa điểm** — tìm tỉnh/xã/phường Việt Nam + API Open-Meteo, lịch sử localStorage, GPS
 - **GPS tự động** — xác định vị trí hiện tại, fallback về Hà Nội
 - **Hiệu ứng nền động** — gradient theo thời tiết, mây trôi, mưa/tuyết/sương mù, sao, mặt trời/mặt trăng, chớp
