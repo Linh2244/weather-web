@@ -63,7 +63,7 @@ A **weather website for Vietnam** with Apple-inspired glassmorphism UI, dark/lig
 ## Bắt đầu / Getting Started
 
 ```bash
-git clone https://github.com/your-username/weather-web.git
+git clone https://github.com/Linh2244/weather-web.git
 cd weather-web
 npm install
 npm run dev
@@ -139,7 +139,7 @@ This project is configured for automatic deployment to **GitHub Pages**:
 
 1. Create a repo named `weather-web` on GitHub
 2. Push the code to `main` branch
-3. GitHub Actions will auto-deploy to `https://<username>.github.io/weather-web/`
+3. GitHub Actions will auto-deploy to `https://Linh2244.github.io/weather-web/`
 
 ---
 
