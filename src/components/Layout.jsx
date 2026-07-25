@@ -13,7 +13,7 @@ export default function Layout({ children, onSearch }) {
         }}
       >
         <div className='max-w-2xl mx-auto px-4 py-3 flex items-center gap-3'>
-          <div className='flex-1 rounded-2xl overflow-hidden'>
+          <div className='flex-1'>
             <SearchBox onSelect={onSearch} />
           </div>
         </div>
