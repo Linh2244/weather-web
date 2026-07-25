@@ -556,6 +556,24 @@ body {
   animation: slideInUp 200ms ease-out both;
 }
 
+/* === FADE OUT === */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+.animate-fade-out {
+  animation: fadeOut 200ms ease-out forwards;
+}
+
+/* === SLIDE OUT LEFT === */
+@keyframes slideOutLeft {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(-100%); opacity: 0; }
+}
+.animate-slide-out-left {
+  animation: slideOutLeft 250ms cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
 /* === REDUCED MOTION === */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-slide-up,
@@ -575,7 +593,9 @@ body {
   .animate-glow-pulse,
   .animate-fade-in,
   .animate-slide-in-left,
-  .animate-slide-in-up { animation: none !important; opacity: 1 !important; }
+  .animate-slide-in-up,
+  .animate-fade-out,
+  .animate-slide-out-left { animation: none !important; opacity: 1 !important; transform: none !important; }
   .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   .stagger-children > .stagger-item { opacity: 1 !important; transform: none !important; transition: none !important; }
   .rain-drop, .snow-flake, .star, .shooting-star,

@@ -4,6 +4,22 @@ import { useState } from 'react';
 
 export default function Layout({ children, onSearch, locationName }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
+
+  const openMenu = () => {
+    setClosing(false);
+    setMenuOpen(true);
+  };
+
+  const closeMenu = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setMenuOpen(false);
+      setClosing(false);
+    }, 300);
+  };
+
+  const visible = menuOpen || closing;
 
   return (
     <div className='min-h-screen transition-colors duration-300' style={{ backgroundColor: 'var(--bg-primary)' }}>
@@ -18,7 +34,7 @@ export default function Layout({ children, onSearch, locationName }) {
       >
         <div className='max-w-2xl mx-auto px-4 py-3 flex items-center justify-between'>
           <button
-            onClick={() => setMenuOpen(true)}
+            onClick={() => openMenu()}
             className='w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95'
             style={{ color: 'var(--text-primary)' }}
           >
@@ -32,16 +48,16 @@ export default function Layout({ children, onSearch, locationName }) {
         </div>
       </header>
 
-      {menuOpen && (
+      {visible && (
         <div
           className='fixed inset-0 z-[100] flex'
-          onClick={() => setMenuOpen(false)}
+          onClick={() => closeMenu()}
         >
           <div
-            className='fixed inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-[2px] animate-fade-in'
+            className={`fixed inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/40 backdrop-blur-[2px] ${closing ? 'animate-fade-out' : 'animate-fade-in'}`}
           />
           <div
-            className='w-full max-w-sm h-full relative animate-slide-in-left'
+            className={`w-full max-w-sm h-full relative ${closing ? 'animate-slide-out-left' : 'animate-slide-in-left'}`}
             style={{
               background: 'linear-gradient(135deg, var(--bg-secondary), var(--bg-primary))',
               backdropFilter: 'blur(24px) saturate(1.8)',
@@ -53,7 +69,7 @@ export default function Layout({ children, onSearch, locationName }) {
             <div className='flex items-center justify-between px-5 py-4' style={{ borderBottom: '1px solid var(--border)' }}>
               <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>Tìm kiếm</span>
               <button
-                onClick={() => setMenuOpen(false)}
+                onClick={() => closeMenu()}
                 className='w-8 h-8 rounded-xl flex items-center justify-center transition-all hover:bg-white/10 active:scale-90'
                 style={{ color: 'var(--text-muted)' }}
               >
@@ -61,7 +77,7 @@ export default function Layout({ children, onSearch, locationName }) {
               </button>
             </div>
             <div className='px-5 pt-4'>
-              <SearchBox onSelect={(loc) => { onSearch(loc); setMenuOpen(false); }} />
+              <SearchBox onSelect={(loc) => { onSearch(loc); closeMenu(); }} />
             </div>
           </div>
           <div className='flex-1' />
