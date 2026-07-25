@@ -336,20 +336,22 @@ const WeatherAlertCarousel = memo(function WeatherAlertCarousel({ data, airQuali
       }
     }
 
-    // === Additional tips (thêm 2-3 tips phụ từ các điều kiện khác) ===
-    if (tips.length > 1) {
-      const added = new Set([0]);
-      const extraCount = Math.min(tips.length - 1, 3);
-      let attempts = 0;
-      while (added.size < extraCount + 1 && attempts < 20) {
-        const ri = Math.floor(Math.random() * tips.length);
-        if (!added.has(ri)) {
-          added.add(ri);
-          result.push(tips[ri]);
-        }
-        attempts++;
-      }
-    }
+    // === Page 4: Gió (luôn hiện) ===
+    const ws = c.wind_speed_10m;
+    const wd = c.wind_direction_10m;
+    const windDesc = ws == null
+      ? 'Không có dữ liệu gió'
+      : ws >= 15
+        ? pickRandom(['Gió đang thổi khá mạnh.', 'Gió sẽ mạnh hơn vào buổi chiều.', 'Giữ chắc các vật dụng nhẹ.', 'Cẩn thận khi điều khiển xe trên cầu.', 'Cây cối có thể rung lắc mạnh.', 'Nhiệt độ cảm nhận có thể thấp hơn thực tế.'])
+        : ws >= 5
+          ? pickRandom(['Gió nhẹ giúp thời tiết dễ chịu hơn.', 'Thời tiết thích hợp để thông gió trong nhà.', 'Gió sẽ giảm dần vào tối nay.'])
+          : 'Gió nhẹ, thời tiết yên tĩnh.';
+    result.push({
+      icon: <WindIcon size={22} />,
+      title: ws != null ? ws + ' km/h' : '--',
+      desc: windDesc,
+      value: wd != null ? 'Hướng ' + getWindDirection(wd) : null,
+    });
 
     return result;
   }, [data, airQuality]);
