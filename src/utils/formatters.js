@@ -11,7 +11,7 @@ export function formatTime(timeStr) {
 export function formatHour(timeStr) {
   if (!timeStr) return '';
   const d = new Date(timeStr);
-  return d.getHours() + ':00';
+  return d.getHours() + 'h';
 }
 
 export function formatDay(dateStr) {

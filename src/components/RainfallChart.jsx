@@ -26,7 +26,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
     <div ref={ref} className='glass-card'>
       <div className='flex items-center gap-1.5 mb-4'>
         <RainIcon size={16} style={{ color: 'var(--accent)' }} />
-        <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>mm</span>
+        <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>Lượng mưa</span>
       </div>
 
       <div className='flex items-end gap-2' style={{ height: barMaxH + 20 }}>
@@ -36,7 +36,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
           return (
             <div key={h.time} className='flex-1 flex flex-col items-center gap-1'>
               <span className='text-[11px] font-medium' style={{ color: 'var(--text-muted)' }}>
-                {h.value > 0 ? h.value.toFixed(h.value >= 10 ? 1 : 2) : ''}
+                {h.value > 0 ? h.value.toFixed(h.value >= 10 ? 1 : 2) + 'mm' : ''}
               </span>
               <div
                 className='w-full rounded-sm transition-all duration-500'
@@ -52,7 +52,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
                 }}
               />
               <span className='text-[11px]' style={{ color: 'var(--text-muted)' }}>
-                {formatHour(h.time).replace(':00', '')}
+                {formatHour(h.time)}
               </span>
             </div>
           );
