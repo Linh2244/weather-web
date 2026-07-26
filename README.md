@@ -112,7 +112,7 @@ Tất cả các kết nối từ trình duyệt của bạn đến Internet đ�
 | `air-quality-api.open-meteo.com/v1/air-quality` | Chất lượng không khí | Tọa độ (kinh độ, vĩ độ) |
 | `geocoding-api.open-meteo.com/v1/search` | Tìm kiếm địa điểm (fallback) | Chuỗi tìm kiếm bạn gõ vào |
 
-> **Lưu ý:** Open-Meteo là dịch vụ mã nguồn mở, miễn phí, không yêu cầu API key và **không ghi nhật ký** các request. Bạn có thể xem chính sách bảo mật của họ tại [open-meteo.com/en/terms](https://open-meteo.com/en/terms).
+> Ứng dụng sử dụng Open-Meteo để cung cấp dữ liệu thời tiết. Open-Meteo là dự án mã nguồn mở và không yêu cầu API key cho API miễn phí. Xem [điều khoản sử dụng](https://open-meteo.com/en/terms) và [chính sách quyền riêng tư](https://open-meteo.com/en/terms) của Open-Meteo để biết thêm chi tiết.
 
 ### 💻 Dữ liệu lưu trên máy bạn (localStorage)
 
@@ -120,7 +120,6 @@ Tất cả dữ liệu cá nhân đều được lưu trữ **cục bộ hoàn t
 
 | Key | Kiểu | Dung lượng | Nội dung |
 |-----|------|-----------|----------|
-| `theme` | `string` | ~10 bytes | Tùy chọn giao diện (`'dark'` hoặc `'light'`) |
 | `weather_search_history` | `Array` | ~2 KB tối đa | Tối đa **8 địa điểm** gần đây bạn đã tìm kiếm (mỗi địa điểm gồm tên, vĩ độ, kinh độ) |
 
 **Bạn có thể dễ dàng xóa dữ liệu này bất kỳ lúc nào:**
