@@ -10,7 +10,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png'],
       manifest: {
-        name: 'Thời Tiết - Weather Web',
+        name: 'Thời Tiết - Weather App',
         short_name: 'Thời Tiết',
         description: 'Trang web thời tiết cho Việt Nam',
         theme_color: '#0ea5e9',

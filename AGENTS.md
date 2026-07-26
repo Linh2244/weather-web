@@ -1,4 +1,4 @@
-# Weather Web - Agent Notes
+# Weather App - Agent Notes
 
 ## Project Overview
 Weather website using React + Tailwind CSS + Open-Meteo APIs (no API key needed, CORS enabled).

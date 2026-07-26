@@ -1,6 +1,6 @@
 <div align="center">
 
-# Thời Tiết — Weather Web
+# Thời Tiết — Weather App
 
 **Trang web thời tiết cho Việt Nam** với GPS tự động, animation mượt mà.
 
@@ -63,8 +63,8 @@ A **weather website for Vietnam** with GPS detection, and smooth animations.
 ## Bắt đầu / Getting Started
 
 ```bash
-git clone https://github.com/Linh2244/weather-web.git
-cd weather-web
+git clone https://github.com/Linh2244/weather-app.git
+cd weather-app
 npm install
 npm run dev
 ```
@@ -92,11 +92,11 @@ npm run dev
 
 ## Quyền riêng tư / Privacy
 
-Weather Web được thiết kế với triết lý **tối giản dữ liệu (data minimisation)** và **ưu tiên quyền riêng tư** ngay từ đầu. Dưới đây là tất cả những gì bạn cần biết:
+Weather App được thiết kế với triết lý **tối giản dữ liệu (data minimisation)** và **ưu tiên quyền riêng tư** ngay từ đầu. Dưới đây là tất cả những gì bạn cần biết:
 
 ### 🚫 Không thu thập dữ liệu
 
-Weather Web **không thu thập, không ghi nhận**, và **không gửi** bất kỳ dữ liệu cá nhân nào về bất kỳ máy chủ nào. Trang web này:
+Weather App **không thu thập, không ghi nhận**, và **không gửi** bất kỳ dữ liệu cá nhân nào về bất kỳ máy chủ nào. Trang web này:
 
 - **Không có** quảng cáo, không nhúng tracker, không phân tích hành vi (analytics).
 - **Không sử dụng** cookies, fingerprint, hoặc bất kỳ công nghệ theo dõi nào.

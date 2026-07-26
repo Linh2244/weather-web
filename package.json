@@ -1,12 +1,12 @@
 {
-  "name": "weather-web",
+  "name": "weather-app",
   "private": true,
   "version": "0.0.0",
   "author": "Linh2244",
-  "homepage": "https://Linh2244.github.io/weather-web/",
+  "homepage": "https://Linh2244.github.io/weather-app/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Linh2244/weather-web.git"
+    "url": "git+https://github.com/Linh2244/weather-app.git"
   },
   "type": "module",
   "scripts": {
