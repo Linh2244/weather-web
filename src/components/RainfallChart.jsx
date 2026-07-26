@@ -29,7 +29,8 @@ const RainfallChart = memo(function RainfallChart({ data }) {
         <span className='text-sm font-semibold' style={{ color: 'var(--text-primary)' }}>Lượng mưa</span>
       </div>
 
-      <div className='flex items-end gap-2' style={{ height: barMaxH + 20 }}>
+      <div className='relative overflow-x-auto scrollbar-hide -mx-5 px-5'>
+        <div className='flex items-end gap-2' style={{ height: barMaxH + 20, minWidth: hours.length * 40 }}>
         {hours.map((h, i) => {
           const pct = maxVal > 0 ? (h.value / maxVal) : 0;
           const barH = Math.max(pct * barMaxH, h.value > 0 ? 2 : 0);
@@ -57,6 +58,7 @@ const RainfallChart = memo(function RainfallChart({ data }) {
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );
